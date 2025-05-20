@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 import { jest } from "@jest/globals" // Or 'jest' if using Jest
-import { version } from "../../../../../package.json"
+import { version } from "../../../../../src/package.json"
 
 import Announcement from "../Announcement"
 
