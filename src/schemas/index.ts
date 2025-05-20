@@ -10,7 +10,7 @@ import { Equals, Keys, AssertEqual } from "../utils/type-fu"
  * Extension
  */
 
-import { publisher, name, version } from "../../package.json"
+import { publisher, name, version } from "../package.json"
 
 export const Package = {
 	publisher,
