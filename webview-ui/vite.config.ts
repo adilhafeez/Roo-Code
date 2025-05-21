@@ -1,57 +1,11 @@
 import path, { resolve } from "path"
 import fs from "fs"
-import { execSync } from "child_process"
 
-import { defineConfig, type Plugin } from "vite"
+import { defineConfig, type PluginOption, type Plugin } from "vite"
 import react from "@vitejs/plugin-react"
 import tailwindcss from "@tailwindcss/vite"
 
-function wasmPlugin(): Plugin {
-	return {
-		name: "wasm",
-		async load(id: string) {
-			if (id.endsWith(".wasm")) {
-				const wasmBinary = await import(id)
-
-				return `
-          			const wasmModule = new WebAssembly.Module(${wasmBinary.default});
-          			export default wasmModule;
-        		`
-			}
-		},
-	}
-}
-
-const writePortToFile = () => {
-	return {
-		name: "write-port-to-file",
-		configureServer(server) {
-			server.httpServer?.once("listening", () => {
-				const address = server.httpServer.address()
-				const port = typeof address === "object" && address ? address.port : null
-
-				if (port) {
-					const portFilePath = resolve(__dirname, "../.vite-port")
-					fs.writeFileSync(portFilePath, port.toString())
-					console.log(`[Vite Plugin] Server started on port ${port}`)
-					console.log(`[Vite Plugin] Port information written to ${portFilePath}`)
-				} else {
-					console.warn("[Vite Plugin] Could not determine server port")
-				}
-			})
-		},
-	}
-}
-
-function getGitSha() {
-	let gitSha: string | undefined = undefined
-
-	try {
-		gitSha = execSync("git rev-parse HEAD").toString().trim()
-	} catch (e) {}
-
-	return gitSha
-}
+import { getGitSha } from "@roo-code/build"
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -83,8 +37,10 @@ export default defineConfig(({ mode }) => {
 		define["process.env.PKG_OUTPUT_CHANNEL"] = JSON.stringify("Roo-Code-Nightly")
 	}
 
+	const plugins: PluginOption[] = [react(), tailwindcss(), persistPortPlugin(), wasmPlugin()]
+
 	return {
-		plugins: [react(), tailwindcss(), writePortToFile(), wasmPlugin()],
+		plugins,
 		resolve: {
 			alias: {
 				"@": resolve(__dirname, "./src"),
@@ -122,4 +78,35 @@ export default defineConfig(({ mode }) => {
 		},
 		assetsInclude: ["**/*.wasm", "**/*.wav"],
 	}
+})
+
+const wasmPlugin = (): Plugin => ({
+	name: "wasm",
+	async load(id) {
+		if (id.endsWith(".wasm")) {
+			const wasmBinary = await import(id)
+
+			return `
+          			const wasmModule = new WebAssembly.Module(${wasmBinary.default});
+          			export default wasmModule;
+        		`
+		}
+	},
+})
+
+const persistPortPlugin = (): Plugin => ({
+	name: "write-port-to-file",
+	configureServer(viteDevServer) {
+		viteDevServer?.httpServer?.once("listening", () => {
+			const address = viteDevServer?.httpServer?.address()
+			const port = address && typeof address === "object" ? address.port : null
+
+			if (port) {
+				fs.writeFileSync(resolve(__dirname, "..", ".vite-port"), port.toString())
+				console.log(`[Vite Plugin] Server started on port ${port}`)
+			} else {
+				console.warn("[Vite Plugin] Could not determine server port")
+			}
+		})
+	},
 })
