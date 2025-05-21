@@ -79,6 +79,11 @@
 			"allowedCommandsDescription": "कमांड प्रीफिक्स जो स्वचालित रूप से निष्पादित किए जा सकते हैं जब \"निष्पादन ऑपरेशन हमेशा अनुमोदित करें\" सक्षम है। सभी कमांड की अनुमति देने के लिए * जोड़ें (सावधानी से उपयोग करें)।",
 			"commandPlaceholder": "कमांड प्रीफिक्स दर्ज करें (उदा. 'git ')",
 			"addButton": "जोड़ें"
+		},
+		"apiRequestLimit": {
+			"title": "अधिकतम अनुरोध",
+			"description": "कार्य जारी रखने के लिए अनुमति मांगने से पहले स्वचालित रूप से इतने API अनुरोध करें।",
+			"unlimited": "असीमित"
 		}
 	},
 	"providers": {
@@ -185,6 +190,8 @@
 		},
 		"unboundApiKey": "Unbound API कुंजी",
 		"getUnboundApiKey": "Unbound API कुंजी प्राप्त करें",
+		"unboundRefreshModelsSuccess": "मॉडल सूची अपडेट हो गई है! अब आप नवीनतम मॉडलों में से चुन सकते हैं।",
+		"unboundInvalidApiKey": "अमान्य API कुंजी। कृपया अपनी API कुंजी की जांच करें और पुनः प्रयास करें।",
 		"humanRelay": {
 			"description": "कोई API कुंजी आवश्यक नहीं है, लेकिन उपयोगकर्ता को वेब चैट AI में जानकारी कॉपी और पेस्ट करने में मदद करनी होगी।",
 			"instructions": "उपयोग के दौरान, एक डायलॉग बॉक्स पॉप अप होगा और वर्तमान संदेश स्वचालित रूप से क्लिपबोर्ड पर कॉपी हो जाएगा। आपको इन्हें AI के वेब संस्करणों (जैसे ChatGPT या Claude) में पेस्ट करना होगा, फिर AI की प्रतिक्रिया को डायलॉग बॉक्स में वापस कॉपी करें और पुष्टि बटन पर क्लिक करें।"
@@ -461,7 +468,7 @@
 		"useCustomModel": "कस्टम उपयोग करें: {{modelId}}"
 	},
 	"footer": {
-		"feedback": "यदि आपके कोई प्रश्न या प्रतिक्रिया है, तो <githubLink>github.com/RooVetGit/Roo-Code</githubLink> पर एक मुद्दा खोलने या <redditLink>reddit.com/r/RooCode</redditLink> या <discordLink>discord.gg/roocode</discordLink> में शामिल होने में संकोच न करें",
+		"feedback": "यदि आपके कोई प्रश्न या प्रतिक्रिया है, तो <githubLink>github.com/RooCodeInc/Roo-Code</githubLink> पर एक मुद्दा खोलने या <redditLink>reddit.com/r/RooCode</redditLink> या <discordLink>discord.gg/roocode</discordLink> में शामिल होने में संकोच न करें",
 		"telemetry": {
 			"label": "गुमनाम त्रुटि और उपयोग रिपोर्टिंग की अनुमति दें",
 			"description": "गुमनाम उपयोग डेटा और त्रुटि रिपोर्ट भेजकर Roo Code को बेहतर बनाने में मदद करें। कोड, प्रॉम्प्ट, या व्यक्तिगत जानकारी कभी भी नहीं भेजी जाती है। अधिक विवरण के लिए हमारी गोपनीयता नीति देखें।"
