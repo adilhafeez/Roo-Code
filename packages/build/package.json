@@ -5,7 +5,8 @@
 	"type": "module",
 	"exports": "./dist/index.js",
 	"scripts": {
-		"build": "tsc"
+		"build": "tsc",
+		"clean": "rimraf dist .turbo"
 	},
 	"devDependencies": {
 		"@types/node": "^22.15.20",

@@ -48,21 +48,40 @@ async function main() {
 	 */
 	const plugins = [
 		{
-			name: "copy-src",
+			name: "copy-files",
 			setup(build) {
 				build.onEnd(() => {
-					const paths = [
-						["../README.md", "README.md"],
-						["../CHANGELOG.md", "CHANGELOG.md"],
-						["../LICENSE", "LICENSE"],
-						[".vscodeignore", ".vscodeignore"],
-						["assets", "assets"],
-						["integrations", "integrations"],
-						["node_modules/vscode-material-icons/generated", "assets/vscode-material-icons"],
-						["../webview-ui/audio", "webview-ui/audio"],
-					]
+					copyPaths(
+						[
+							["../README.md", "README.md"],
+							["../CHANGELOG.md", "CHANGELOG.md"],
+							["../LICENSE", "LICENSE"],
+							[".vscodeignore", ".vscodeignore"],
+							["assets", "assets"],
+							["integrations", "integrations"],
+							["node_modules/vscode-material-icons/generated", "assets/vscode-material-icons"],
+							["../webview-ui/audio", "webview-ui/audio"],
+						],
+						srcDir,
+						buildDir,
+					)
+				})
+			},
+		},
+		{
+			name: "generate-package-json",
+			setup(build) {
+				build.onEnd(() => {
+					const packageJson = JSON.parse(fs.readFileSync(path.join(srcDir, "package.json"), "utf8"))
 
-					copyPaths(paths, srcDir, buildDir)
+					const generatedPackageJson = generatePackageJson({
+						packageJson,
+						overrideJson,
+						substitution: ["roo-cline", "roo-code-nightly"],
+					})
+
+					fs.writeFileSync(path.join(buildDir, "package.json"), JSON.stringify(generatedPackageJson, null, 2))
+					console.log(`[generate-package-json] Generated package.json`)
 
 					let count = 0
 
@@ -86,41 +105,20 @@ async function main() {
 						JSON.stringify({ ...nlsPkg, ...nlsNightlyPkg }, null, 2),
 					)
 
-					console.log(`[copy-src] Merged production and nightly package.nls.json files`)
-				})
-			},
-		},
-		{
-			name: "generate-package-json",
-			setup(build) {
-				build.onEnd(() => {
-					const packageJson = JSON.parse(fs.readFileSync(path.join(srcDir, "package.json"), "utf8"))
-
-					const generatedPackageJson = generatePackageJson({
-						packageJson,
-						overrideJson,
-						substitution: ["roo-cline", "roo-code-nightly"],
-					})
-
-					fs.writeFileSync(path.join(buildDir, "package.json"), JSON.stringify(generatedPackageJson, null, 2))
-					console.log(`[generate-package-json] Generated package.json`)
+					console.log(`[copy-src] Generated package.nls.json`)
 				})
 			},
 		},
 		{
 			name: "copy-wasms",
 			setup(build) {
-				build.onEnd(() => {
-					copyWasms(srcDir, distDir)
-				})
+				build.onEnd(() => copyWasms(srcDir, distDir))
 			},
 		},
 		{
 			name: "copy-locales",
 			setup(build) {
-				build.onEnd(() => {
-					copyLocales(srcDir, distDir)
-				})
+				build.onEnd(() => copyLocales(srcDir, distDir))
 			},
 		},
 	]

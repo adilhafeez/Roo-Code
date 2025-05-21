@@ -55,7 +55,7 @@ importers:
         version: 5.8.3
 
   apps/vscode-nightly:
-    dependencies:
+    devDependencies:
       '@roo-code/build':
         specifier: workspace:^
         version: link:../../packages/build
@@ -292,6 +292,9 @@ importers:
       '@jest/globals':
         specifier: ^29.7.0
         version: 29.7.0
+      '@roo-code/build':
+        specifier: workspace:^
+        version: link:../packages/build
       '@types/clone-deep':
         specifier: ^4.0.4
         version: 4.0.4

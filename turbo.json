@@ -4,6 +4,7 @@
 		"lint": {},
 		"check-types": {},
 		"test": {},
-		"format": {}
+		"format": {},
+		"clean": { "cache": false }
 	}
 }

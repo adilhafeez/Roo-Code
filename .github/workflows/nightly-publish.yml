@@ -3,6 +3,11 @@ name: Nightly Publish
 on:
   push:
     branches: [main, cte/monorepo]
+  # workflow_run:
+  #   workflows: ["Code QA Roo Code"]
+  #   types:
+  #     - completed
+  #   branches: [main]
   workflow_dispatch: # Allows manual triggering.
 
 env:
@@ -12,6 +17,7 @@ env:
 jobs:
   publish-nightly:
     runs-on: ubuntu-latest
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     permissions:
       contents: read # No tags pushed → read is enough.
@@ -34,7 +40,7 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Count commits
         id: count
-        run: echo "total=$(git rev-list --count HEAD)" >> $GITHUB_OUTPUT
+        run: echo "total=$(git rev-list --all --count)" >> $GITHUB_OUTPUT
       - name: Patch package.json version
         env:
           COMMIT_COUNT: ${{ steps.count.outputs.total }}
