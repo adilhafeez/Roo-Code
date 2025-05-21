@@ -5,6 +5,9 @@
 	"type": "module",
 	"exports": "./dist/index.js",
 	"scripts": {
+		"lint": "eslint src --ext .ts,.tsx --max-warnings=0",
+		"check-types": "tsc --noEmit",
+		"test": "vitest --globals --run",
 		"build": "tsc",
 		"clean": "rimraf dist .turbo"
 	},
