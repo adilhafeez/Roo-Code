@@ -1,4 +1,4 @@
-import { resolve } from "path"
+import path, { resolve } from "path"
 import fs from "fs"
 import { execSync } from "child_process"
 
@@ -57,7 +57,7 @@ function getGitSha() {
 export default defineConfig(({ mode }) => {
 	let outDir = "../src/webview-ui/build"
 
-	const pkg = JSON.parse(fs.readFileSync("../src/package.json", "utf8"))
+	const pkg = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "src", "package.json"), "utf8"))
 	const gitSha = getGitSha()
 
 	const define: Record<string, any> = {
@@ -73,7 +73,11 @@ export default defineConfig(({ mode }) => {
 	// monorepo is deployed.
 	if (mode === "nightly") {
 		outDir = "../apps/vscode-nightly/build/webview-ui/build"
-		const nightlyPkg = JSON.parse(fs.readFileSync("../apps/vscode-nightly/package.nightly.json", "utf8"))
+
+		const nightlyPkg = JSON.parse(
+			fs.readFileSync(path.join(__dirname, "..", "apps", "vscode-nightly", "package.nightly.json"), "utf8"),
+		)
+
 		define["process.env.PKG_NAME"] = JSON.stringify(nightlyPkg.name)
 		define["process.env.PKG_VERSION"] = JSON.stringify(nightlyPkg.version)
 		define["process.env.PKG_OUTPUT_CHANNEL"] = JSON.stringify("Roo-Code-Nightly")
