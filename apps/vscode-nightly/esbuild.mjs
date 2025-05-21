@@ -74,6 +74,19 @@ async function main() {
 					})
 
 					console.log(`[copy-src] Copied ${count} package.nls*.json files to ${buildDir}`)
+
+					const nlsPkg = JSON.parse(fs.readFileSync(path.join(srcDir, "package.nls.json"), "utf8"))
+
+					const nlsNightlyPkg = JSON.parse(
+						fs.readFileSync(path.join(__dirname, "package.nls.nightly.json"), "utf8"),
+					)
+
+					fs.writeFileSync(
+						path.join(buildDir, "package.nls.json"),
+						JSON.stringify({ ...nlsPkg, ...nlsNightlyPkg }, null, 2),
+					)
+
+					console.log(`[copy-src] Merged production and nightly package.nls.json files`)
 				})
 			},
 		},

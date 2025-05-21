@@ -2,7 +2,7 @@ name: Nightly Publish
 
 on:
   push:
-    branches: [main]
+    branches: [main, cte/monorepo]
   workflow_dispatch: # Allows manual triggering.
 
 env:
