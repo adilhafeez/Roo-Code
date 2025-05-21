@@ -109,6 +109,46 @@ export function copyLocales(srcDir: string, distDir: string): void {
 	console.log(`[copyLocales] Copied ${count} locale files to ${destDir}`)
 }
 
+export function setupLocaleWatcher(srcDir: string, distDir: string) {
+	const localesDir = path.join(srcDir, "i18n", "locales")
+
+	if (!fs.existsSync(localesDir)) {
+		console.warn(`Cannot set up watcher: Source locales directory does not exist: ${localesDir}`)
+		return
+	}
+
+	console.log(`Setting up watcher for locale files in ${localesDir}`)
+
+	let debounceTimer: NodeJS.Timeout | null = null
+
+	const debouncedCopy = () => {
+		if (debounceTimer) {
+			clearTimeout(debounceTimer)
+		}
+
+		// Wait 300ms after last change before copying.
+		debounceTimer = setTimeout(() => {
+			console.log("Locale files changed, copying...")
+			copyLocales(srcDir, distDir)
+		}, 300)
+	}
+
+	try {
+		fs.watch(localesDir, { recursive: true }, (_eventType, filename) => {
+			if (filename && filename.endsWith(".json")) {
+				console.log(`Locale file ${filename} changed, triggering copy...`)
+				debouncedCopy()
+			}
+		})
+		console.log("Watcher for locale files is set up")
+	} catch (error) {
+		console.error(
+			`Error setting up watcher for ${localesDir}:`,
+			error instanceof Error ? error.message : "Unknown error",
+		)
+	}
+}
+
 export function generatePackageJson({
 	packageJson: { contributes, ...packageJson },
 	overrideJson,
