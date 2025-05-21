@@ -51,16 +51,6 @@
 	],
 	"main": "./dist/extension.js",
 	"contributes": {
-		"submenus": [
-			{
-				"id": "roo-code.contextMenu",
-				"label": "%views.contextMenu.label%"
-			},
-			{
-				"id": "roo-code.terminalMenu",
-				"label": "%views.terminalMenu.label%"
-			}
-		],
 		"viewsContainers": {
 			"activitybar": [
 				{
@@ -166,19 +156,29 @@
 				"category": "%configuration.title%"
 			},
 			{
-				"command": "roo.acceptInput",
+				"command": "roo-cline.acceptInput",
 				"title": "%command.acceptInput.title%",
 				"category": "%configuration.title%"
+			}
+		],
+		"submenus": [
+			{
+				"id": "roo-cline.contextMenu",
+				"label": "%views.contextMenu.label%"
+			},
+			{
+				"id": "roo-cline.terminalMenu",
+				"label": "%views.terminalMenu.label%"
 			}
 		],
 		"menus": {
 			"editor/context": [
 				{
-					"submenu": "roo-code.contextMenu",
+					"submenu": "roo-cline.contextMenu",
 					"group": "navigation"
 				}
 			],
-			"roo-code.contextMenu": [
+			"roo-cline.contextMenu": [
 				{
 					"command": "roo-cline.addToContext",
 					"group": "1_actions@1"
@@ -194,11 +194,11 @@
 			],
 			"terminal/context": [
 				{
-					"submenu": "roo-code.terminalMenu",
+					"submenu": "roo-cline.terminalMenu",
 					"group": "navigation"
 				}
 			],
-			"roo-code.terminalMenu": [
+			"roo-cline.terminalMenu": [
 				{
 					"command": "roo-cline.terminalAddToContext",
 					"group": "1_actions@1"
