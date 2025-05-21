@@ -57,26 +57,26 @@ function getGitSha() {
 export default defineConfig(({ mode }) => {
 	let outDir = "../src/webview-ui/build"
 
+	const pkg = JSON.parse(fs.readFileSync("../src/package.json", "utf8"))
+	const gitSha = getGitSha()
+
 	const define: Record<string, any> = {
 		"process.platform": JSON.stringify(process.platform),
+		"process.env.VSCODE_TEXTMATE_DEBUG": JSON.stringify(process.env.VSCODE_TEXTMATE_DEBUG),
+		"process.env.PKG_NAME": JSON.stringify(pkg.name),
+		"process.env.PKG_VERSION": JSON.stringify(pkg.version),
+		"process.env.PKG_OUTPUT_CHANNEL": JSON.stringify("Roo-Code"),
+		...(gitSha ? { "process.env.PKG_SHA": JSON.stringify(gitSha) } : {}),
 	}
 
 	// TODO: We can use `@roo-code/build` to generate `define` once the
 	// monorepo is deployed.
 	if (mode === "nightly") {
 		outDir = "../apps/vscode-nightly/build/webview-ui/build"
-
-		const { name, version } = JSON.parse(fs.readFileSync("../apps/vscode-nightly/package.nightly.json", "utf8"))
-
-		define["process.env.PKG_NAME"] = JSON.stringify(name)
-		define["process.env.PKG_VERSION"] = JSON.stringify(version)
+		const nightlyPkg = JSON.parse(fs.readFileSync("../apps/vscode-nightly/package.nightly.json", "utf8"))
+		define["process.env.PKG_NAME"] = JSON.stringify(nightlyPkg.name)
+		define["process.env.PKG_VERSION"] = JSON.stringify(nightlyPkg.version)
 		define["process.env.PKG_OUTPUT_CHANNEL"] = JSON.stringify("Roo-Code-Nightly")
-
-		const gitSha = getGitSha()
-
-		if (gitSha) {
-			define["process.env.PKG_SHA"] = JSON.stringify(gitSha)
-		}
 	}
 
 	return {
