@@ -27,6 +27,7 @@ import {
 	GroqHandler,
 	ChutesHandler,
 	LiteLLMHandler,
+	ArchGwHandler,
 } from "./providers"
 
 export interface SingleCompletionHandler {
@@ -86,6 +87,8 @@ export function buildApiHandler(configuration: ProviderSettings): ApiHandler {
 			return new OpenAiNativeHandler(options)
 		case "deepseek":
 			return new DeepSeekHandler(options)
+		case "archgw":
+			return new ArchGwHandler(options)
 		case "vscode-lm":
 			return new VsCodeLmHandler(options)
 		case "mistral":

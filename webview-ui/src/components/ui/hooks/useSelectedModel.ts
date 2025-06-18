@@ -121,6 +121,15 @@ function getSelectedModel({
 				? { id, info }
 				: { id: litellmDefaultModelId, info: routerModels.litellm[litellmDefaultModelId] }
 		}
+
+		case "archgw": {
+			const id = apiConfiguration.archgwModelId ?? "openai/gpt-4.1"
+			const info = routerModels.archgw[id]
+			return info
+				? { id, info }
+				: { id: litellmDefaultModelId, info: routerModels.litellm[litellmDefaultModelId] }
+		}
+
 		case "xai": {
 			const id = apiConfiguration.apiModelId ?? xaiDefaultModelId
 			const info = xaiModels[id as keyof typeof xaiModels]

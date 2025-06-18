@@ -27,6 +27,7 @@ import {
 	Bedrock,
 	Chutes,
 	DeepSeek,
+	ArchGw,
 	Gemini,
 	Glama,
 	Groq,
@@ -170,6 +171,7 @@ const ApiOptions = ({
 			apiConfiguration?.ollamaBaseUrl,
 			apiConfiguration?.lmStudioBaseUrl,
 			apiConfiguration?.litellmBaseUrl,
+			apiConfiguration?.archgwBaseUrl,
 			apiConfiguration?.litellmApiKey,
 			customHeaders,
 		],
@@ -377,6 +379,14 @@ const ApiOptions = ({
 
 			{selectedProvider === "deepseek" && (
 				<DeepSeek apiConfiguration={apiConfiguration} setApiConfigurationField={setApiConfigurationField} />
+			)}
+
+			{selectedProvider === "archgw" && (
+				<ArchGw
+					apiConfiguration={apiConfiguration}
+					setApiConfigurationField={setApiConfigurationField}
+					organizationAllowList={organizationAllowList}
+				/>
 			)}
 
 			{selectedProvider === "vscode-lm" && (

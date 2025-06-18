@@ -219,6 +219,9 @@ export function validateModelId(apiConfiguration: ProviderSettings, routerModels
 		case "litellm":
 			modelId = apiConfiguration.litellmModelId
 			break
+		case "archgw":
+			modelId = apiConfiguration.archgwModelId
+			break
 	}
 
 	if (!modelId) {

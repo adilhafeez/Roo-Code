@@ -21,6 +21,7 @@ export const providerNames = [
 	"openai-native",
 	"mistral",
 	"deepseek",
+	"archgw",
 	"unbound",
 	"requesty",
 	"human-relay",
@@ -168,6 +169,12 @@ const deepSeekSchema = apiModelIdProviderModelSchema.extend({
 	deepSeekApiKey: z.string().optional(),
 })
 
+const archgwSchema = apiModelIdProviderModelSchema.extend({
+	archgwBaseUrl: z.string().optional(),
+	archgwApiKey: z.string().optional(),
+	archgwModelId: z.string().optional(),
+})
+
 const unboundSchema = baseProviderSettingsSchema.extend({
 	unboundApiKey: z.string().optional(),
 	unboundModelId: z.string().optional(),
@@ -220,6 +227,7 @@ export const providerSettingsSchemaDiscriminated = z.discriminatedUnion("apiProv
 	openAiNativeSchema.merge(z.object({ apiProvider: z.literal("openai-native") })),
 	mistralSchema.merge(z.object({ apiProvider: z.literal("mistral") })),
 	deepSeekSchema.merge(z.object({ apiProvider: z.literal("deepseek") })),
+	archgwSchema.merge(z.object({ apiProvider: z.literal("archgw") })),
 	unboundSchema.merge(z.object({ apiProvider: z.literal("unbound") })),
 	requestySchema.merge(z.object({ apiProvider: z.literal("requesty") })),
 	humanRelaySchema.merge(z.object({ apiProvider: z.literal("human-relay") })),
@@ -246,6 +254,7 @@ export const providerSettingsSchema = z.object({
 	...openAiNativeSchema.shape,
 	...mistralSchema.shape,
 	...deepSeekSchema.shape,
+	...archgwSchema.shape,
 	...unboundSchema.shape,
 	...requestySchema.shape,
 	...humanRelaySchema.shape,
@@ -271,6 +280,7 @@ export const MODEL_ID_KEYS: Partial<keyof ProviderSettings>[] = [
 	"unboundModelId",
 	"requestyModelId",
 	"litellmModelId",
+	"archgwModelId",
 ]
 
 export const getModelId = (settings: ProviderSettings): string | undefined => {
