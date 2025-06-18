@@ -1,17 +1,23 @@
 import { useCallback, useState, useEffect, useRef } from "react"
 import { VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
+import { Checkbox } from "vscrui"
 
-import { archgwDefaultModelId, type OrganizationAllowList, type ProviderSettings } from "@roo-code/types"
+import {
+	type ProviderSettings,
+	type OrganizationAllowList,
+	litellmDefaultModelId,
+	archgwDefaultModelId,
+} from "@roo-code/types"
 
-import { useAppTranslation } from "@src/i18n/TranslationContext"
-import { VSCodeButtonLink } from "@src/components/common/VSCodeButtonLink"
 import { RouterName } from "@roo/api"
 import { ExtensionMessage } from "@roo/ExtensionMessage"
 
-import { inputEventTransform } from "../transforms"
-import { useExtensionState } from "@src/context/ExtensionStateContext"
-import { Button } from "@src/components/ui"
 import { vscode } from "@src/utils/vscode"
+import { useExtensionState } from "@src/context/ExtensionStateContext"
+import { useAppTranslation } from "@src/i18n/TranslationContext"
+import { Button } from "@src/components/ui"
+
+import { inputEventTransform } from "../transforms"
 import { ModelPicker } from "../ModelPicker"
 
 type ArchGwProps = {
@@ -24,8 +30,10 @@ export const ArchGw = ({ apiConfiguration, setApiConfigurationField, organizatio
 	const { t } = useAppTranslation()
 	const { routerModels } = useExtensionState()
 	const [refreshStatus, setRefreshStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
-	const archGwErrorJustReceived = useRef(false)
 	const [refreshError, setRefreshError] = useState<string | undefined>()
+	const archgwErrorJustReceived = useRef(false)
+
+	const [archgwBaseUrlSelected, setArchgwBaseUrlSelected] = useState(!!apiConfiguration?.archgwBaseUrl)
 
 	useEffect(() => {
 		const handleMessage = (event: MessageEvent<ExtensionMessage>) => {
@@ -33,18 +41,18 @@ export const ArchGw = ({ apiConfiguration, setApiConfigurationField, organizatio
 			if (message.type === "singleRouterModelFetchResponse" && !message.success) {
 				const providerName = message.values?.provider as RouterName
 				if (providerName === "archgw") {
-					archGwErrorJustReceived.current = true
+					archgwErrorJustReceived.current = true
 					setRefreshStatus("error")
 					setRefreshError(message.error)
 				}
 			} else if (message.type === "routerModels") {
-				// If we were loading and no specific error for litellm was just received, mark as success.
+				// If we were loading and no specific error for archgw was just received, mark as success.
 				// The ModelPicker will show available models or "no models found".
 				if (refreshStatus === "loading") {
-					if (!archGwErrorJustReceived.current) {
+					if (!archgwErrorJustReceived.current) {
 						setRefreshStatus("success")
 					}
-					// If litellmErrorJustReceived.current is true, status is already (or will be) "error".
+					// If archgwErrorJustReceived.current is true, status is already (or will be) "error".
 				}
 			}
 		}
@@ -67,47 +75,49 @@ export const ArchGw = ({ apiConfiguration, setApiConfigurationField, organizatio
 	)
 
 	const handleRefreshModels = useCallback(() => {
-		archGwErrorJustReceived.current = false // Reset flag on new refresh action
+		archgwErrorJustReceived.current = false // Reset flag on new refresh action
 		setRefreshStatus("loading")
 		setRefreshError(undefined)
 
-		const key = apiConfiguration.archgwApiKey
 		const url = apiConfiguration.archgwBaseUrl
 
-		if (!key || !url) {
+		if (!url) {
 			setRefreshStatus("error")
 			setRefreshError(t("settings:providers.refreshModels.missingConfig"))
 			return
 		}
-
-		vscode.postMessage({ type: "requestRouterModels", values: { archgwApiKey: key, archgwBaseUrl: url } })
+		vscode.postMessage({ type: "requestRouterModels", values: { archgwBaseUrl: url } })
 	}, [apiConfiguration, setRefreshStatus, setRefreshError, t])
 
 	return (
 		<>
-			<VSCodeTextField
-				value={apiConfiguration?.archgwBaseUrl || ""}
-				onInput={handleInputChange("archgwBaseUrl")}
-				placeholder={t("settings:placeholders.baseUrl")}
-				className="w-full">
-				<label className="block font-medium mb-1">{t("settings:providers.archgwBaseUrl")}</label>
-			</VSCodeTextField>
+			<Checkbox
+				checked={archgwBaseUrlSelected}
+				onChange={(checked: boolean) => {
+					setArchgwBaseUrlSelected(checked)
 
-			<VSCodeTextField
-				value={apiConfiguration?.archgwApiKey || ""}
-				type="password"
-				onInput={handleInputChange("archgwApiKey")}
-				placeholder={t("settings:placeholders.apiKey")}
-				className="w-full">
-				<label className="block font-medium mb-1">{t("settings:providers.archgwApiKey")}</label>
-			</VSCodeTextField>
+					if (!checked) {
+						setApiConfigurationField("archgwBaseUrl", "")
+					}
+				}}>
+				{t("settings:providers.useCustomBaseUrl")}
+			</Checkbox>
+			{archgwBaseUrlSelected && (
+				<>
+					<VSCodeTextField
+						value={apiConfiguration?.archgwBaseUrl || ""}
+						type="url"
+						onInput={handleInputChange("archgwBaseUrl")}
+						placeholder="http://localhost:12000/v1"
+						className="w-full mt-1"
+					/>
+				</>
+			)}
 
 			<Button
 				variant="outline"
 				onClick={handleRefreshModels}
-				disabled={
-					refreshStatus === "loading" || !apiConfiguration.archgwApiKey || !apiConfiguration.archgwBaseUrl
-				}
+				disabled={refreshStatus === "loading" || !apiConfiguration.archgwBaseUrl}
 				className="w-full">
 				<div className="flex items-center gap-2">
 					{refreshStatus === "loading" ? (
@@ -131,17 +141,12 @@ export const ArchGw = ({ apiConfiguration, setApiConfigurationField, organizatio
 					{refreshError || t("settings:providers.refreshModels.error")}
 				</div>
 			)}
-
-			<div className="text-sm text-vscode-descriptionForeground -mt-2">
-				{t("settings:providers.apiKeyStorageNotice")}
-			</div>
-
 			<ModelPicker
 				apiConfiguration={apiConfiguration}
 				defaultModelId={archgwDefaultModelId}
 				models={routerModels?.archgw ?? {}}
 				modelIdKey="archgwModelId"
-				serviceName="ArchgwLLM"
+				serviceName="Archgw"
 				serviceUrl="https://archgw.com/"
 				setApiConfigurationField={setApiConfigurationField}
 				organizationAllowList={organizationAllowList}

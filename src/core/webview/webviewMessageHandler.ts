@@ -361,17 +361,13 @@ export const webviewMessageHandler = async (
 				})
 			}
 
-			const archgwApiKey = apiConfiguration.archgwApiKey || message?.values?.archgwApiKey
 			const archgwBaseUrl =
 				apiConfiguration.archgwBaseUrl || message?.values?.archgwBaseUrl || "http://localhost:12000/v1"
-			console.log(
-				`[webviewMessageHandler] requestRouterModels - archgwApiKey: ${archgwApiKey} archgwBaseUrl: ${archgwBaseUrl}`,
-			)
-			// const archgwBaseUrl = "http://localhost:12000/v1"
+			console.log(`[webviewMessageHandler] requestRouterModels - archgwBaseUrl: ${archgwBaseUrl}`)
 			if (archgwBaseUrl) {
 				modelFetchPromises.push({
 					key: "archgw",
-					options: { provider: "archgw", apiKey: archgwApiKey, baseUrl: archgwBaseUrl },
+					options: { provider: "archgw", baseUrl: archgwBaseUrl },
 				})
 			}
 

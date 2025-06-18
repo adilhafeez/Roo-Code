@@ -11,6 +11,7 @@ import {
 	glamaDefaultModelId,
 	unboundDefaultModelId,
 	litellmDefaultModelId,
+	archgwDefaultModelId,
 } from "@roo-code/types"
 
 import { vscode } from "@src/utils/vscode"
@@ -160,6 +161,8 @@ const ApiOptions = ({
 				vscode.postMessage({ type: "requestVsCodeLmModels" })
 			} else if (selectedProvider === "litellm") {
 				vscode.postMessage({ type: "requestRouterModels" })
+			} else if (selectedProvider === "archgw") {
+				vscode.postMessage({ type: "requestRouterModels" })
 			}
 		},
 		250,
@@ -171,8 +174,8 @@ const ApiOptions = ({
 			apiConfiguration?.ollamaBaseUrl,
 			apiConfiguration?.lmStudioBaseUrl,
 			apiConfiguration?.litellmBaseUrl,
-			apiConfiguration?.archgwBaseUrl,
 			apiConfiguration?.litellmApiKey,
+			apiConfiguration?.archgwBaseUrl,
 			customHeaders,
 		],
 	)
@@ -232,6 +235,11 @@ const ApiOptions = ({
 						setApiConfigurationField("litellmModelId", litellmDefaultModelId)
 					}
 					break
+				case "archgw":
+					if (!apiConfiguration.archgwModelId) {
+						setApiConfigurationField("archgwModelId", archgwDefaultModelId)
+					}
+					break
 			}
 
 			setApiConfigurationField("apiProvider", value)
@@ -243,6 +251,7 @@ const ApiOptions = ({
 			apiConfiguration.unboundModelId,
 			apiConfiguration.requestyModelId,
 			apiConfiguration.litellmModelId,
+			apiConfiguration.archgwModelId,
 		],
 	)
 

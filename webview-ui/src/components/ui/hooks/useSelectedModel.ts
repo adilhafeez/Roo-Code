@@ -30,6 +30,7 @@ import {
 	glamaDefaultModelId,
 	unboundDefaultModelId,
 	litellmDefaultModelId,
+	archgwDefaultModelId,
 } from "@roo-code/types"
 
 import type { RouterModels } from "@roo/api"
@@ -125,9 +126,7 @@ function getSelectedModel({
 		case "archgw": {
 			const id = apiConfiguration.archgwModelId ?? "openai/gpt-4.1"
 			const info = routerModels.archgw[id]
-			return info
-				? { id, info }
-				: { id: litellmDefaultModelId, info: routerModels.litellm[litellmDefaultModelId] }
+			return info ? { id, info } : { id: archgwDefaultModelId, info: routerModels.litellm[archgwDefaultModelId] }
 		}
 
 		case "xai": {
