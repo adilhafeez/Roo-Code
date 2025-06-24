@@ -73,7 +73,7 @@ export const getModels = async (options: GetModelsOptions): Promise<ModelRecord>
 				break
 			case "archgw":
 				console.log("[getModels] Fetching ArchGw models...")
-				models = await getArchGwModels(options.apiKey, options.baseUrl)
+				models = await getArchGwModels(options.baseUrl)
 				break
 			default: {
 				// Ensures router is exhaustively checked if RouterName is a strict union

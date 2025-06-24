@@ -82,4 +82,4 @@ export type GetModelsOptions =
 	| { provider: "requesty"; apiKey?: string }
 	| { provider: "unbound"; apiKey?: string }
 	| { provider: "litellm"; apiKey: string; baseUrl: string }
-	| { provider: "archgw"; apiKey: string; baseUrl: string }
+	| { provider: "archgw"; baseUrl: string }

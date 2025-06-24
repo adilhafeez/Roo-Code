@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect, useRef } from "react"
-import { VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
+import { VSCodeTextArea, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
 import { Checkbox } from "vscrui"
 
 import {
@@ -28,12 +28,22 @@ type ArchGwProps = {
 
 export const ArchGw = ({ apiConfiguration, setApiConfigurationField, organizationAllowList }: ArchGwProps) => {
 	const { t } = useAppTranslation()
+
+	const defaultArchGwPreferences = `
+- model: openai/gpt-4.1
+  usage: generating new code snippets, functions, or boilerplate based on user prompts or requirements
+  
+- model: openai/gpt-4o
+  usage: understand and explain existing code snippets, functions, or libraries
+  `.trim()
+
 	const { routerModels } = useExtensionState()
 	const [refreshStatus, setRefreshStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
 	const [refreshError, setRefreshError] = useState<string | undefined>()
 	const archgwErrorJustReceived = useRef(false)
 
 	const [archgwBaseUrlSelected, setArchgwBaseUrlSelected] = useState(!!apiConfiguration?.archgwBaseUrl)
+	const [modelId1Selected, setModelId1Selected] = useState(!!apiConfiguration?.archgwModelId1)
 
 	useEffect(() => {
 		const handleMessage = (event: MessageEvent<ExtensionMessage>) => {
@@ -151,6 +161,29 @@ export const ArchGw = ({ apiConfiguration, setApiConfigurationField, organizatio
 				setApiConfigurationField={setApiConfigurationField}
 				organizationAllowList={organizationAllowList}
 			/>
+
+			<Checkbox
+				checked={modelId1Selected}
+				onChange={(checked: boolean) => {
+					setModelId1Selected(checked)
+
+					if (!checked) {
+						setApiConfigurationField("archgwModelId1", "")
+					}
+				}}>
+				{t("settings:providers.usePreferenceModel1")}
+			</Checkbox>
+
+			{modelId1Selected && (
+				<>
+					<div className="text-sm text-vscode-foreground">{t("settings:providers.routingConfig")}</div>
+					<VSCodeTextArea
+						value={apiConfiguration?.archgwPreferenceConfig || defaultArchGwPreferences}
+						onInput={handleInputChange("archgwPreferenceConfig")}
+						className="w-full mt-1 resize"
+					/>
+				</>
+			)}
 		</>
 	)
 }

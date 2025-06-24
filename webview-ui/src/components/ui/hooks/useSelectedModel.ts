@@ -124,9 +124,9 @@ function getSelectedModel({
 		}
 
 		case "archgw": {
-			const id = apiConfiguration.archgwModelId ?? "openai/gpt-4.1"
+			const id = apiConfiguration.archgwModelId ?? "gemini"
 			const info = routerModels.archgw[id]
-			return info ? { id, info } : { id: archgwDefaultModelId, info: routerModels.litellm[archgwDefaultModelId] }
+			return info ? { id, info } : { id: archgwDefaultModelId, info: routerModels.archgw[archgwDefaultModelId] }
 		}
 
 		case "xai": {

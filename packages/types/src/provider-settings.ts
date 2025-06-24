@@ -172,6 +172,8 @@ const deepSeekSchema = apiModelIdProviderModelSchema.extend({
 const archgwSchema = apiModelIdProviderModelSchema.extend({
 	archgwBaseUrl: z.string().optional(),
 	archgwModelId: z.string().optional(),
+	archgwModelId1: z.string().optional(),
+	archgwPreferenceConfig: z.string().optional(),
 })
 
 const unboundSchema = baseProviderSettingsSchema.extend({

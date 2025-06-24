@@ -4,7 +4,7 @@ import type { ModelInfo } from "@roo-code/types"
 
 import { parseApiPrice } from "../../../shared/cost"
 
-export async function getArchGwModels(apiKey: string, baseUrl: string): Promise<Record<string, ModelInfo>> {
+export async function getArchGwModels(baseUrl: string): Promise<Record<string, ModelInfo>> {
 	const models: Record<string, ModelInfo> = {}
 
 	console.log("Fetching archgw models...")
@@ -12,10 +12,6 @@ export async function getArchGwModels(apiKey: string, baseUrl: string): Promise<
 	try {
 		const headers: Record<string, string> = {
 			"Content-Type": "application/json",
-		}
-
-		if (apiKey) {
-			headers["Authorization"] = `Bearer ${apiKey}`
 		}
 
 		const url = new URL("/v1/models", baseUrl).href

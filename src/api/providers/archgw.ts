@@ -20,7 +20,10 @@ import { RouterProvider } from "./router-provider"
  * It follows the OpenAI API format for compatibility.
  */
 export class ArchGwHandler extends RouterProvider implements SingleCompletionHandler {
+	preferenceConfig?: string // Declare the property
+
 	constructor(options: ApiHandlerOptions) {
+		console.log("ArchGwHandler constructor called with options:", options)
 		super({
 			options,
 			name: "archgw",
@@ -29,6 +32,7 @@ export class ArchGwHandler extends RouterProvider implements SingleCompletionHan
 			defaultModelId: archgwDefaultModelId,
 			defaultModelInfo: archgwDefaultModelInfo,
 		})
+		this.preferenceConfig = options.archgwPreferenceConfig // Store the new parameter
 	}
 
 	override async *createMessage(
@@ -54,6 +58,13 @@ export class ArchGwHandler extends RouterProvider implements SingleCompletionHan
 			stream_options: {
 				include_usage: true,
 			},
+		}
+
+		if (this.preferenceConfig) {
+			if (!requestOptions.metadata) {
+				requestOptions.metadata = {}
+			}
+			requestOptions.metadata["archgw_preference_config"] = this.preferenceConfig
 		}
 
 		if (this.supportsTemperature(modelId)) {
@@ -119,6 +130,13 @@ export class ArchGwHandler extends RouterProvider implements SingleCompletionHan
 			}
 
 			requestOptions.max_tokens = info.maxTokens
+
+			if (this.preferenceConfig) {
+				if (!requestOptions.metadata) {
+					requestOptions.metadata = {}
+				}
+				requestOptions.metadata["archgw_preference_config"] = this.preferenceConfig
+			}
 
 			const response = await this.client.chat.completions.create(requestOptions)
 			return response.choices[0]?.message.content || ""
