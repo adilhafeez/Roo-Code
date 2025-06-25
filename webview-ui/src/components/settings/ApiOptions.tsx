@@ -239,6 +239,9 @@ const ApiOptions = ({
 					if (!apiConfiguration.archgwModelId) {
 						setApiConfigurationField("archgwModelId", archgwDefaultModelId)
 					}
+					// if (!apiConfiguration.archgwUsePreferences) {
+					// 	setApiConfigurationField("archgwUsePreferences", archgwUsePreferences)
+					// }
 					break
 			}
 

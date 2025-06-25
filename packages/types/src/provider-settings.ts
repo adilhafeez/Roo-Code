@@ -172,7 +172,7 @@ const deepSeekSchema = apiModelIdProviderModelSchema.extend({
 const archgwSchema = apiModelIdProviderModelSchema.extend({
 	archgwBaseUrl: z.string().optional(),
 	archgwModelId: z.string().optional(),
-	archgwModelId1: z.string().optional(),
+	archgwUsePreferences: z.boolean().optional(),
 	archgwPreferenceConfig: z.string().optional(),
 })
 

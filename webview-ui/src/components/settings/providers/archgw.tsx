@@ -2,6 +2,8 @@ import { useCallback, useState, useEffect, useRef } from "react"
 import { VSCodeTextArea, VSCodeTextField } from "@vscode/webview-ui-toolkit/react"
 import { Checkbox } from "vscrui"
 
+import * as yaml from "yaml"
+
 import {
 	type ProviderSettings,
 	type OrganizationAllowList,
@@ -29,13 +31,7 @@ type ArchGwProps = {
 export const ArchGw = ({ apiConfiguration, setApiConfigurationField, organizationAllowList }: ArchGwProps) => {
 	const { t } = useAppTranslation()
 
-	const defaultArchGwPreferences = `
-- model: openai/gpt-4.1
-  usage: generating new code snippets, functions, or boilerplate based on user prompts or requirements
-  
-- model: openai/gpt-4o
-  usage: understand and explain existing code snippets, functions, or libraries
-  `.trim()
+	// No local default; always pull from URL
 
 	const { routerModels } = useExtensionState()
 	const [refreshStatus, setRefreshStatus] = useState<"idle" | "loading" | "success" | "error">("idle")
@@ -43,7 +39,9 @@ export const ArchGw = ({ apiConfiguration, setApiConfigurationField, organizatio
 	const archgwErrorJustReceived = useRef(false)
 
 	const [archgwBaseUrlSelected, setArchgwBaseUrlSelected] = useState(!!apiConfiguration?.archgwBaseUrl)
-	const [modelId1Selected, setModelId1Selected] = useState(!!apiConfiguration?.archgwModelId1)
+	const [archgwUsePreferencesSelected, setArchgwUsePreferences] = useState(!!apiConfiguration?.archgwUsePreferences)
+
+	const [archgwPreferenceConfigError, setArchgwPreferenceConfigError] = useState<string | null>(null)
 
 	useEffect(() => {
 		const handleMessage = (event: MessageEvent<ExtensionMessage>) => {
@@ -82,6 +80,48 @@ export const ArchGw = ({ apiConfiguration, setApiConfigurationField, organizatio
 				setApiConfigurationField(field, transform(event as E))
 			},
 		[setApiConfigurationField],
+	)
+
+	const handleArchgwPreferenceConfigInput = useCallback(
+		(event: any) => {
+			const value = event?.target?.value ?? ""
+			try {
+				// Only validate if not empty
+				if (value.trim() !== "") {
+					const parsed = yaml.parse(value)
+					if (!Array.isArray(parsed)) {
+						throw new Error(
+							t("settings:providers.archgwPreferenceConfig.schemaError", {
+								error: "YAML must be a list of objects with 'name', 'model' and 'usage'.",
+							}),
+						)
+					}
+					for (const item of parsed) {
+						if (
+							typeof item !== "object" ||
+							typeof item.name !== "string" ||
+							typeof item.model !== "string" ||
+							typeof item.usage !== "string"
+						) {
+							throw new Error(
+								t("settings:providers.archgwPreferenceConfig.schemaError", {
+									error: "Each item must have 'name', 'model' and 'usage' as strings.",
+								}),
+							)
+						}
+					}
+				}
+				setArchgwPreferenceConfigError(null)
+				setApiConfigurationField("archgwPreferenceConfig", value)
+			} catch (err: any) {
+				setArchgwPreferenceConfigError(
+					t("settings:providers.archgwPreferenceConfig.yamlError", {
+						error: err.message || String(err),
+					}),
+				)
+			}
+		},
+		[setApiConfigurationField, t],
 	)
 
 	const handleRefreshModels = useCallback(() => {
@@ -163,25 +203,27 @@ export const ArchGw = ({ apiConfiguration, setApiConfigurationField, organizatio
 			/>
 
 			<Checkbox
-				checked={modelId1Selected}
+				checked={archgwUsePreferencesSelected}
 				onChange={(checked: boolean) => {
-					setModelId1Selected(checked)
+					setArchgwUsePreferences(checked)
 
-					if (!checked) {
-						setApiConfigurationField("archgwModelId1", "")
-					}
+					setApiConfigurationField("archgwUsePreferences", checked)
 				}}>
 				{t("settings:providers.usePreferenceModel1")}
 			</Checkbox>
 
-			{modelId1Selected && (
+			{archgwUsePreferencesSelected && (
 				<>
 					<div className="text-sm text-vscode-foreground">{t("settings:providers.routingConfig")}</div>
 					<VSCodeTextArea
-						value={apiConfiguration?.archgwPreferenceConfig || defaultArchGwPreferences}
-						onInput={handleInputChange("archgwPreferenceConfig")}
-						className="w-full mt-1 resize"
+						value={apiConfiguration?.archgwPreferenceConfig || ""}
+						onInput={handleArchgwPreferenceConfigInput}
+						className="w-full font-mono text-sm"
+						resize="vertical"
 					/>
+					{archgwPreferenceConfigError && (
+						<div className="text-sm text-vscode-errorForeground mt-1">{archgwPreferenceConfigError}</div>
+					)}
 				</>
 			)}
 		</>
