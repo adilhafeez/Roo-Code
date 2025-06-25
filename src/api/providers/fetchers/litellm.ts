@@ -13,6 +13,7 @@ import type { ModelRecord } from "../../../shared/api"
  * @throws Will throw an error if the request fails or the response is not as expected.
  */
 export async function getLiteLLMModels(apiKey: string, baseUrl: string): Promise<ModelRecord> {
+	console.log("[getLiteLLMModels] Fetching LiteLLM models...")
 	try {
 		const headers: Record<string, string> = {
 			"Content-Type": "application/json",

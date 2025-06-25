@@ -152,6 +152,13 @@
 		"glamaApiKey": "Glama API Key",
 		"getGlamaApiKey": "Get Glama API Key",
 		"useCustomBaseUrl": "Use custom base URL",
+		"usePreferenceModel1": "Use preference based routing",
+		"routingConfig": "Routing Config",
+		"archgwPreferenceConfig": {
+			"schemaError": "Invalid routing config schema. Error: {{error}}",
+			"yamlError": "Invalid yaml format. Error: {{error}}"
+		},
+		"usePreferenceModel2": "Add another model to preference based routing",
 		"useReasoning": "Enable reasoning",
 		"useHostHeader": "Use custom Host header",
 		"useLegacyFormat": "Use legacy OpenAI API format",
