@@ -1,5 +1,80 @@
 # Roo Code Changelog
 
+## [3.21.5] - 2025-06-23
+
+- Fix Qdrant URL prefix handling for QdrantClient initialization (thanks @CW-B-W!)
+- Improve LM Studio model detection to show all downloaded models (thanks @daniel-lxs!)
+- Resolve Claude Code provider JSON parsing and reasoning block display
+
+## [3.21.4] - 2025-06-23
+
+- Fix start line not working in multiple apply diff (thanks @samhvw8!)
+- Resolve diff editor issues with markdown preview associations (thanks @daniel-lxs!)
+- Resolve URL port handling bug for HTTPS URLs in Qdrant (thanks @benashby!)
+- Mark unused Ollama schema properties as optional (thanks @daniel-lxs!)
+- Close the local browser when used as fallback for remote (thanks @markijbema!)
+- Add Claude Code provider for local CLI integration (thanks @BarreiroT!)
+
+## [3.21.3] - 2025-06-21
+
+- Add profile-specific context condensing thresholds (thanks @SannidhyaSah!)
+- Fix context length for lmstudio and ollama (thanks @thecolorblue!)
+- Resolve MCP tool eye icon state and hide in chat context (thanks @daniel-lxs!)
+
+## [3.21.2] - 2025-06-20
+
+- Add LaTeX math equation rendering in chat window
+- Add toggle for excluding MCP server tools from the prompt (thanks @Rexarrior!)
+- Add symlink support to list_files tool
+- Fix marketplace blanking after populating
+- Fix recursive directory scanning in @ mention "Add Folder" functionality (thanks @village-way!)
+- Resolve phantom subtask display on cancel during API retry
+- Correct Gemini 2.5 Flash pricing (thanks @daniel-lxs!)
+- Resolve marketplace timeout issues and display installed MCPs (thanks @daniel-lxs!)
+- Onboarding tweaks to emphasize modes (thanks @brunobergher!)
+- Rename 'Boomerang Tasks' to 'Task Orchestration' for clarity
+- Remove command execution from attempt_completion
+- Fix markdown for links followed by punctuation (thanks @xyOz-dev!)
+
+## [3.21.1] - 2025-06-19
+
+- Fix tree-sitter issues that were preventing codebase indexing from working correctly
+- Improve error handling for codebase search embeddings
+- Resolve MCP server execution on Windows with node version managers
+- Default 'Enable MCP Server Creation' to false
+- Rate limit correctly when starting a subtask (thanks @olweraltuve!)
+
+## [3.21.0] - 2025-06-17
+
+- Add Roo Marketplace to make it easy to discover and install great MCPs and modes!
+- Add Gemini 2.5 models (Pro, Flash and Flash Lite) (thanks @daniel-lxs!)
+- Add support for Excel (.xlsx) files in tools (thanks @chrarnoldus!)
+- Add max tokens checkbox option for OpenAI compatible provider (thanks @AlexandruSmirnov!)
+- Update provider models and prices for Groq & Mistral (thanks @KanTakahiro!)
+- Add proper error handling for API conversation history issues (thanks @KJ7LNW!)
+- Fix ambiguous model id error (thanks @elianiva!)
+- Fix save/discard/revert flow for Prompt Settings (thanks @hassoncs!)
+- Fix codebase indexing alignment with list-files hidden directory filtering (thanks @daniel-lxs!)
+- Fix subtask completion mismatch (thanks @feifei325!)
+- Fix Windows path normalization in MCP variable injection (thanks @daniel-lxs!)
+- Update marketplace branding to 'Roo Marketplace' (thanks @SannidhyaSah!)
+- Refactor to more consistent history UI (thanks @elianiva!)
+- Adjust context menu positioning to be near Copilot
+- Update evals Docker setup to work on Windows (thanks @StevenTCramer!)
+- Include current working directory in terminal details
+- Encourage use of start_line in multi-file diff to match legacy diff
+- Always focus the panel when clicked to ensure menu buttons are visible (thanks @hassoncs!)
+
+## [3.20.3] - 2025-06-13
+
+- Resolve diff editor race condition in multi-monitor setups (thanks @daniel-lxs!)
+- Add logic to prevent auto-approving edits of configuration files
+- Adjust searching and listing files outside of the workspace to respect the auto-approve settings
+- Add Indonesian translation support (thanks @chrarnoldus and @daniel-lxs!)
+- Fix multi-file diff error handling and UI feedback (thanks @daniel-lxs!)
+- Improve prompt history navigation to not interfere with text editing (thanks @daniel-lxs!)
+- Fix errant maxReadFileLine default
+
 ## [3.20.2] - 2025-06-13
 
 - Limit search_files to only look within the workspace for improved security

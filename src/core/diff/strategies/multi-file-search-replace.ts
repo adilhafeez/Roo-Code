@@ -107,12 +107,12 @@ Parameters:
   - path: (required) The path of the file to modify (relative to the current workspace directory ${args.cwd})
   - diff: (required) One or more diff elements containing:
     - content: (required) The search/replace block defining the changes.
-    - start_line: (optional) The line number of original content where the search block starts.
+    - start_line: (required) The line number of original content where the search block starts.
 
 Diff format:
 \`\`\`
 <<<<<<< SEARCH
-:start_line: (optional) The line number of original content where the search block starts.
+:start_line: (required) The line number of original content where the search block starts.
 -------
 [exact content to find including whitespace]
 =======
@@ -294,7 +294,7 @@ Each file requires its own path, start_line, and diff elements.
 				"\n" +
 				"CORRECT FORMAT:\n\n" +
 				"<<<<<<< SEARCH\n" +
-				":start_line: (optional) The line number of original content where the search block starts.\n" +
+				":start_line: (required) The line number of original content where the search block starts.\n" +
 				"-------\n" +
 				"[exact content to find including whitespace]\n" +
 				"=======\n" +
@@ -410,7 +410,13 @@ Each file requires its own path, start_line, and diff elements.
 					resultContent = singleResult.content
 					successCount++
 				} else {
-					allFailParts.push(singleResult)
+					// If singleResult has failParts, push those directly to avoid nesting
+					if (singleResult.failParts && singleResult.failParts.length > 0) {
+						allFailParts.push(...singleResult.failParts)
+					} else {
+						// Otherwise push the single result itself
+						allFailParts.push(singleResult)
+					}
 				}
 			}
 
@@ -479,7 +485,7 @@ Each file requires its own path, start_line, and diff elements.
 
 		const replacements = matches
 			.map((match) => ({
-				startLine: Number(match[2] ?? 0),
+				startLine: _paramStartLine ?? Number(match[2] ?? 0),
 				searchContent: match[6],
 				replaceContent: match[7],
 			}))

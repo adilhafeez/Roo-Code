@@ -36,6 +36,7 @@ export const globalSettingsSchema = z.object({
 	alwaysAllowReadOnlyOutsideWorkspace: z.boolean().optional(),
 	alwaysAllowWrite: z.boolean().optional(),
 	alwaysAllowWriteOutsideWorkspace: z.boolean().optional(),
+	alwaysAllowWriteProtected: z.boolean().optional(),
 	writeDelayMs: z.number().optional(),
 	alwaysAllowBrowser: z.boolean().optional(),
 	alwaysApproveResubmit: z.boolean().optional(),
@@ -102,6 +103,8 @@ export const globalSettingsSchema = z.object({
 	customSupportPrompts: customSupportPromptsSchema.optional(),
 	enhancementApiConfigId: z.string().optional(),
 	historyPreviewCollapsed: z.boolean().optional(),
+	profileThresholds: z.record(z.string(), z.number()).optional(),
+	hasOpenedModeSelector: z.boolean().optional(),
 })
 
 export type GlobalSettings = z.infer<typeof globalSettingsSchema>
@@ -177,6 +180,7 @@ export const EVALS_SETTINGS: RooCodeSettings = {
 	alwaysAllowReadOnlyOutsideWorkspace: false,
 	alwaysAllowWrite: true,
 	alwaysAllowWriteOutsideWorkspace: false,
+	alwaysAllowWriteProtected: false,
 	writeDelayMs: 1000,
 	alwaysAllowBrowser: true,
 	alwaysApproveResubmit: true,

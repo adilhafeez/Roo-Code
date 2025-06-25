@@ -10,7 +10,7 @@ import {
 	ORGANIZATION_ALLOW_ALL,
 } from "@roo-code/types"
 
-import { ExtensionMessage, ExtensionState } from "@roo/ExtensionMessage"
+import { ExtensionMessage, ExtensionState, MarketplaceInstalledMetadata } from "@roo/ExtensionMessage"
 import { findLastIndex } from "@roo/array"
 import { McpServer } from "@roo/mcp"
 import { checkExistKey } from "@roo/checkExistApiConfig"
@@ -37,10 +37,17 @@ export interface ExtensionStateContextType extends ExtensionState {
 	cloudIsAuthenticated: boolean
 	sharingEnabled: boolean
 	maxConcurrentFileReads?: number
+	mdmCompliant?: boolean
+	hasOpenedModeSelector: boolean // New property to track if user has opened mode selector
+	setHasOpenedModeSelector: (value: boolean) => void // Setter for the new property
 	condensingApiConfigId?: string
 	setCondensingApiConfigId: (value: string) => void
 	customCondensingPrompt?: string
 	setCustomCondensingPrompt: (value: string) => void
+	marketplaceItems?: any[]
+	marketplaceInstalledMetadata?: MarketplaceInstalledMetadata
+	profileThresholds: Record<string, number>
+	setProfileThresholds: (value: Record<string, number>) => void
 	setApiConfiguration: (config: ProviderSettings) => void
 	setCustomInstructions: (value?: string) => void
 	setAlwaysAllowReadOnly: (value: boolean) => void
@@ -123,29 +130,22 @@ export interface ExtensionStateContextType extends ExtensionState {
 export const ExtensionStateContext = createContext<ExtensionStateContextType | undefined>(undefined)
 
 export const mergeExtensionState = (prevState: ExtensionState, newState: ExtensionState) => {
-	const {
-		customModePrompts: prevCustomModePrompts,
-		customSupportPrompts: prevCustomSupportPrompts,
-		experiments: prevExperiments,
-		...prevRest
-	} = prevState
+	const { customModePrompts: prevCustomModePrompts, experiments: prevExperiments, ...prevRest } = prevState
 
 	const {
 		apiConfiguration,
 		customModePrompts: newCustomModePrompts,
-		customSupportPrompts: newCustomSupportPrompts,
+		customSupportPrompts,
 		experiments: newExperiments,
 		...newRest
 	} = newState
 
 	const customModePrompts = { ...prevCustomModePrompts, ...newCustomModePrompts }
-	const customSupportPrompts = { ...prevCustomSupportPrompts, ...newCustomSupportPrompts }
 	const experiments = { ...prevExperiments, ...newExperiments }
 	const rest = { ...prevRest, ...newRest }
 
-	// Note that we completely replace the previous apiConfiguration object with
-	// a new one since the state that is broadcast is the entire apiConfiguration
-	// and therefore merging is not necessary.
+	// Note that we completely replace the previous apiConfiguration and customSupportPrompts objects
+	// with new ones since the state that is broadcast is the entire objects so merging is not necessary.
 	return { ...rest, apiConfiguration, customModePrompts, customSupportPrompts, experiments }
 }
 
@@ -170,7 +170,7 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 		terminalOutputLineLimit: 500,
 		terminalShellIntegrationTimeout: 4000,
 		mcpEnabled: true,
-		enableMcpServerCreation: true,
+		enableMcpServerCreation: false,
 		alwaysApproveResubmit: false,
 		requestDelaySeconds: 5,
 		currentApiConfigName: "default",
@@ -182,6 +182,7 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 		enhancementApiConfigId: "",
 		condensingApiConfigId: "", // Default empty string for condensing API config ID
 		customCondensingPrompt: "", // Default empty string for custom condensing prompt
+		hasOpenedModeSelector: false, // Default to false (not opened yet)
 		autoApprovalEnabled: false,
 		customModes: [],
 		maxOpenTabsContext: 20,
@@ -205,6 +206,7 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 		organizationAllowList: ORGANIZATION_ALLOW_ALL,
 		autoCondenseContext: true,
 		autoCondenseContextPercent: 100,
+		profileThresholds: {},
 		codebaseIndexConfig: {
 			codebaseIndexEnabled: false,
 			codebaseIndexQdrantUrl: "http://localhost:6333",
@@ -223,6 +225,11 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 	const [mcpServers, setMcpServers] = useState<McpServer[]>([])
 	const [currentCheckpoint, setCurrentCheckpoint] = useState<string>()
 	const [extensionRouterModels, setExtensionRouterModels] = useState<RouterModels | undefined>(undefined)
+	const [marketplaceItems, setMarketplaceItems] = useState<any[]>([])
+	const [marketplaceInstalledMetadata, setMarketplaceInstalledMetadata] = useState<MarketplaceInstalledMetadata>({
+		project: {},
+		global: {},
+	})
 
 	const setListApiConfigMeta = useCallback(
 		(value: ProviderSettingsEntry[]) => setState((prevState) => ({ ...prevState, listApiConfigMeta: value })),
@@ -248,6 +255,13 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 					setState((prevState) => mergeExtensionState(prevState, newState))
 					setShowWelcome(!checkExistKey(newState.apiConfiguration))
 					setDidHydrateState(true)
+					// Handle marketplace data if present in state message
+					if (newState.marketplaceItems !== undefined) {
+						setMarketplaceItems(newState.marketplaceItems)
+					}
+					if (newState.marketplaceInstalledMetadata !== undefined) {
+						setMarketplaceInstalledMetadata(newState.marketplaceInstalledMetadata)
+					}
 					break
 				}
 				case "theme": {
@@ -295,6 +309,15 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 					setExtensionRouterModels(message.routerModels)
 					break
 				}
+				case "marketplaceData": {
+					if (message.marketplaceItems !== undefined) {
+						setMarketplaceItems(message.marketplaceItems)
+					}
+					if (message.marketplaceInstalledMetadata !== undefined) {
+						setMarketplaceInstalledMetadata(message.marketplaceInstalledMetadata)
+					}
+					break
+				}
 			}
 		},
 		[setListApiConfigMeta],
@@ -327,6 +350,9 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 		screenshotQuality: state.screenshotQuality,
 		routerModels: extensionRouterModels,
 		cloudIsAuthenticated: state.cloudIsAuthenticated ?? false,
+		marketplaceItems,
+		marketplaceInstalledMetadata,
+		profileThresholds: state.profileThresholds ?? {},
 		setExperimentEnabled: (id, enabled) =>
 			setState((prevState) => ({ ...prevState, experiments: { ...prevState.experiments, [id]: enabled } })),
 		setApiConfiguration,
@@ -405,12 +431,14 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 			}),
 		setHistoryPreviewCollapsed: (value) =>
 			setState((prevState) => ({ ...prevState, historyPreviewCollapsed: value })),
+		setHasOpenedModeSelector: (value) => setState((prevState) => ({ ...prevState, hasOpenedModeSelector: value })),
 		setAutoCondenseContext: (value) => setState((prevState) => ({ ...prevState, autoCondenseContext: value })),
 		setAutoCondenseContextPercent: (value) =>
 			setState((prevState) => ({ ...prevState, autoCondenseContextPercent: value })),
 		setCondensingApiConfigId: (value) => setState((prevState) => ({ ...prevState, condensingApiConfigId: value })),
 		setCustomCondensingPrompt: (value) =>
 			setState((prevState) => ({ ...prevState, customCondensingPrompt: value })),
+		setProfileThresholds: (value) => setState((prevState) => ({ ...prevState, profileThresholds: value })),
 	}
 
 	return <ExtensionStateContext.Provider value={contextValue}>{children}</ExtensionStateContext.Provider>

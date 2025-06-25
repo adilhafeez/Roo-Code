@@ -23,6 +23,7 @@ import {
 } from "@src/components/ui"
 
 import { ModelInfoView } from "./ModelInfoView"
+import { ApiErrorMessage } from "./ApiErrorMessage"
 
 type ModelIdKey = keyof Pick<
 	ProviderSettings,
@@ -45,6 +46,7 @@ interface ModelPickerProps {
 	setApiConfigurationField: <K extends keyof ProviderSettings>(field: K, value: ProviderSettings[K]) => void
 	organizationAllowList: OrganizationAllowList
 	showModelInfoDescription?: boolean
+	errorMessage?: string
 }
 
 export const ModelPicker = ({
@@ -57,6 +59,7 @@ export const ModelPicker = ({
 	setApiConfigurationField,
 	organizationAllowList,
 	showModelInfoDescription,
+	errorMessage,
 }: ModelPickerProps) => {
 	const { t } = useAppTranslation()
 
@@ -64,6 +67,8 @@ export const ModelPicker = ({
 	const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
 	const isInitialized = useRef(false)
 	const searchInputRef = useRef<HTMLInputElement>(null)
+	const selectTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+	const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
 	const modelIds = useMemo(() => {
 		const filteredModels = filterModels(models, apiConfiguration.apiProvider, organizationAllowList)
@@ -84,8 +89,13 @@ export const ModelPicker = ({
 			setOpen(false)
 			setApiConfigurationField(modelIdKey, modelId)
 
+			// Clear any existing timeout
+			if (selectTimeoutRef.current) {
+				clearTimeout(selectTimeoutRef.current)
+			}
+
 			// Delay to ensure the popover is closed before setting the search value.
-			setTimeout(() => setSearchValue(modelId), 100)
+			selectTimeoutRef.current = setTimeout(() => setSearchValue(modelId), 100)
 		},
 		[modelIdKey, setApiConfigurationField],
 	)
@@ -96,8 +106,13 @@ export const ModelPicker = ({
 
 			// Abandon the current search if the popover is closed.
 			if (!open) {
+				// Clear any existing timeout
+				if (closeTimeoutRef.current) {
+					clearTimeout(closeTimeoutRef.current)
+				}
+
 				// Delay to ensure the popover is closed before setting the search value.
-				setTimeout(() => setSearchValue(selectedModelId), 100)
+				closeTimeoutRef.current = setTimeout(() => setSearchValue(selectedModelId), 100)
 			}
 		},
 		[selectedModelId],
@@ -117,6 +132,18 @@ export const ModelPicker = ({
 		isInitialized.current = true
 	}, [modelIds, setApiConfigurationField, modelIdKey, selectedModelId, defaultModelId])
 
+	// Cleanup timeouts on unmount to prevent test flakiness
+	useEffect(() => {
+		return () => {
+			if (selectTimeoutRef.current) {
+				clearTimeout(selectTimeoutRef.current)
+			}
+			if (closeTimeoutRef.current) {
+				clearTimeout(closeTimeoutRef.current)
+			}
+		}
+	}, [])
+
 	return (
 		<>
 			<div>
@@ -127,7 +154,8 @@ export const ModelPicker = ({
 							variant="combobox"
 							role="combobox"
 							aria-expanded={open}
-							className="w-full justify-between">
+							className="w-full justify-between"
+							data-testid="model-picker-button">
 							<div>{selectedModelId ?? t("settings:common.select")}</div>
 							<ChevronsUpDown className="opacity-50" />
 						</Button>
@@ -162,7 +190,11 @@ export const ModelPicker = ({
 								</CommandEmpty>
 								<CommandGroup>
 									{modelIds.map((model) => (
-										<CommandItem key={model} value={model} onSelect={onSelect}>
+										<CommandItem
+											key={model}
+											value={model}
+											onSelect={onSelect}
+											data-testid={`model-option-${model}`}>
 											{model}
 											<Check
 												className={cn(
@@ -185,6 +217,7 @@ export const ModelPicker = ({
 					</PopoverContent>
 				</Popover>
 			</div>
+			{errorMessage && <ApiErrorMessage errorMessage={errorMessage} />}
 			{selectedModelId && selectedModelInfo && (
 				<ModelInfoView
 					apiProvider={apiConfiguration.apiProvider}
