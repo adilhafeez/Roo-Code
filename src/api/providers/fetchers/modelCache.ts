@@ -76,8 +76,8 @@ export const getModels = async (options: GetModelsOptions): Promise<ModelRecord>
 				models = await getLiteLLMModels(options.apiKey, options.baseUrl)
 				break
 			case "archgw":
-				console.log("[getModels] Fetching ArchGw models...")
 				models = await getArchGwModels(options.baseUrl)
+				break
 			case "ollama":
 				models = await getOllamaModels(options.baseUrl)
 				break

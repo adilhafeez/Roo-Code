@@ -4,12 +4,7 @@ import { Checkbox } from "vscrui"
 
 import * as yaml from "yaml"
 
-import {
-	type ProviderSettings,
-	type OrganizationAllowList,
-	litellmDefaultModelId,
-	archgwDefaultModelId,
-} from "@roo-code/types"
+import { type ProviderSettings, type OrganizationAllowList, archgwDefaultModelId } from "@roo-code/types"
 
 import { RouterName } from "@roo/api"
 import { ExtensionMessage } from "@roo/ExtensionMessage"
