@@ -358,6 +358,7 @@ export const webviewMessageHandler = async (
 				glama: {},
 				unbound: {},
 				litellm: {},
+				archgw: {},
 				ollama: {},
 				lmstudio: {},
 			}
@@ -392,6 +393,18 @@ export const webviewMessageHandler = async (
 					options: { provider: "litellm", apiKey: litellmApiKey, baseUrl: litellmBaseUrl },
 				})
 			}
+
+			const archgwBaseUrl =
+				apiConfiguration.archgwBaseUrl || message?.values?.archgwBaseUrl || "http://localhost:12000/v1"
+			console.log(`[webviewMessageHandler] requestRouterModels - archgwBaseUrl: ${archgwBaseUrl}`)
+			if (archgwBaseUrl) {
+				modelFetchPromises.push({
+					key: "archgw",
+					options: { provider: "archgw", baseUrl: archgwBaseUrl },
+				})
+			}
+
+			console.log("[webviewMessageHandler] requestRouterModels - modelFetchPromises:", modelFetchPromises)
 
 			const results = await Promise.allSettled(
 				modelFetchPromises.map(async ({ key, options }) => {

@@ -319,6 +319,7 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 					break
 				}
 				case "routerModels": {
+					console.log("Received router models:", message.routerModels)
 					setExtensionRouterModels(message.routerModels)
 					break
 				}

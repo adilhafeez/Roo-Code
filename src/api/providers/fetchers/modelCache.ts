@@ -15,6 +15,7 @@ import { getGlamaModels } from "./glama"
 import { getUnboundModels } from "./unbound"
 import { getLiteLLMModels } from "./litellm"
 import { GetModelsOptions } from "../../../shared/api"
+import { getArchGwModels } from "./archgw"
 import { getOllamaModels } from "./ollama"
 import { getLMStudioModels } from "./lmstudio"
 
@@ -46,9 +47,11 @@ async function readModels(router: RouterName): Promise<ModelRecord | undefined> 
  * @returns The models from the cache or the fetched models.
  */
 export const getModels = async (options: GetModelsOptions): Promise<ModelRecord> => {
+	console.log("[getModels] Fetching models for provider:", options.provider)
 	const { provider } = options
 	let models = memoryCache.get<ModelRecord>(provider)
 	if (models) {
+		console.log(`[getModels] Models for ${provider} found in memory cache`)
 		return models
 	}
 
@@ -71,6 +74,9 @@ export const getModels = async (options: GetModelsOptions): Promise<ModelRecord>
 			case "litellm":
 				// Type safety ensures apiKey and baseUrl are always provided for litellm
 				models = await getLiteLLMModels(options.apiKey, options.baseUrl)
+				break
+			case "archgw":
+				models = await getArchGwModels(options.baseUrl)
 				break
 			case "ollama":
 				models = await getOllamaModels(options.baseUrl)
