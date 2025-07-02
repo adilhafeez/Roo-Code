@@ -234,7 +234,9 @@
 		"tokens": "tokens"
 	},
 	"followUpSuggest": {
-		"copyToInput": "Copiar a l'entrada (o Shift + clic)"
+		"copyToInput": "Copiar a l'entrada (o Shift + clic)",
+		"autoSelectCountdown": "Selecció automàtica en {{count}}s",
+		"countdownDisplay": "{{count}}s"
 	},
 	"announcement": {
 		"title": "🎉 Roo Code {{version}} publicat",
@@ -294,7 +296,8 @@
 	"codebaseSearch": {
 		"wantsToSearch": "Roo vol cercar a la base de codi <code>{{query}}</code>:",
 		"wantsToSearchWithPath": "Roo vol cercar a la base de codi <code>{{query}}</code> a <code>{{path}}</code>:",
-		"didSearch": "S'han trobat {{count}} resultat(s) per a <code>{{query}}</code>:"
+		"didSearch": "S'han trobat {{count}} resultat(s) per a <code>{{query}}</code>:",
+		"resultTooltip": "Puntuació de similitud: {{score}} (fes clic per obrir el fitxer)"
 	},
 	"read-batch": {
 		"approve": {
@@ -310,5 +313,8 @@
 		"indexed": "Indexat",
 		"error": "Error d'índex",
 		"status": "Estat de l'índex"
+	},
+	"versionIndicator": {
+		"ariaLabel": "Versió {{version}} - Feu clic per veure les notes de llançament"
 	}
 }
