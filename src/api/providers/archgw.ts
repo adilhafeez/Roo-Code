@@ -27,7 +27,8 @@ export class ArchGwHandler extends RouterProvider implements SingleCompletionHan
 		super({
 			options,
 			name: "archgw",
-			baseURL: `${options.archgwBaseUrl || "http://localhost:12000/v1"}`,
+			baseURL: options.archgwBaseUrl || "http://localhost:12000/v1",
+			apiKey: options.archgwApiKey,
 			modelId: options.archgwModelId,
 			defaultModelId: archgwDefaultModelId,
 			defaultModelInfo: archgwDefaultModelInfo,

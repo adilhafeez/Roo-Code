@@ -9,7 +9,7 @@ describe("ArchGw - archgwPreferenceConfig YAML validation", () => {
 			archgwUsePreferences: true,
 			archgwBaseUrl: "",
 		},
-		setApiConfigurationField: jest.fn(),
+		setApiConfigurationField: vi.fn(),
 		organizationAllowList: {
 			allowAll: true,
 			providers: {},
@@ -21,7 +21,7 @@ describe("ArchGw - archgwPreferenceConfig YAML validation", () => {
 	}
 
 	it("accepts valid YAML and calls setApiConfigurationField", () => {
-		const setApiConfigurationField = jest.fn()
+		const setApiConfigurationField = vi.fn()
 		setup({ setApiConfigurationField })
 
 		// Enable the preferences checkbox if not already enabled
@@ -38,7 +38,7 @@ describe("ArchGw - archgwPreferenceConfig YAML validation", () => {
 	})
 
 	it("shows error and does not call setApiConfigurationField for invalid YAML", () => {
-		const setApiConfigurationField = jest.fn()
+		const setApiConfigurationField = vi.fn()
 		setup({ setApiConfigurationField })
 
 		// Enable the preferences checkbox if not already enabled
@@ -56,7 +56,7 @@ describe("ArchGw - archgwPreferenceConfig YAML validation", () => {
 	})
 
 	it("shows schema error for non-array YAML", () => {
-		const setApiConfigurationField = jest.fn()
+		const setApiConfigurationField = vi.fn()
 		setup({ setApiConfigurationField })
 
 		const checkbox = screen.getByLabelText(/usePreferenceModel1/i) as HTMLInputElement
@@ -72,7 +72,7 @@ describe("ArchGw - archgwPreferenceConfig YAML validation", () => {
 	})
 
 	it("shows schema error for array items missing model or usage", () => {
-		const setApiConfigurationField = jest.fn()
+		const setApiConfigurationField = vi.fn()
 		setup({ setApiConfigurationField })
 
 		const checkbox = screen.getByLabelText(/usePreferenceModel1/i) as HTMLInputElement

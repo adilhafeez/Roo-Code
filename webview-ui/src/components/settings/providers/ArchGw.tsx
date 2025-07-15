@@ -136,6 +136,19 @@ export const ArchGw = ({ apiConfiguration, setApiConfigurationField, organizatio
 
 	return (
 		<>
+			<VSCodeTextField
+				value={apiConfiguration?.archgwApiKey || ""}
+				type="password"
+				onInput={handleInputChange("archgwApiKey")}
+				placeholder={t("settings:placeholders.apiKey")}
+				className="w-full">
+				<label className="block font-medium mb-1">{t("settings:providers.archgwApiKey")}</label>
+			</VSCodeTextField>
+
+			<div className="text-sm text-vscode-descriptionForeground -mt-2">
+				{t("settings:providers.apiKeyStorageNotice")}
+			</div>
+
 			<Checkbox
 				checked={archgwBaseUrlSelected}
 				onChange={(checked: boolean) => {

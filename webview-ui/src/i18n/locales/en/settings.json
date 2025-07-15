@@ -134,6 +134,7 @@
 		}
 	},
 	"providers": {
+		"archgwApiKey": "Arch Gateway API Key",
 		"providerDocumentation": "{{provider}} documentation",
 		"configProfile": "Configuration Profile",
 		"description": "Save different API configurations to quickly switch between providers and settings.",
