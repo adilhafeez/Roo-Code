@@ -14,9 +14,9 @@ import type { SingleCompletionHandler, ApiHandlerCreateMessageMetadata } from ".
 import { RouterProvider } from "./router-provider"
 
 /**
- * LiteLLM provider handler
+ * ArchGw provider handler
  *
- * This handler uses the LiteLLM API to proxy requests to various LLM providers.
+ * This handler uses the ArchGw API to proxy requests to various LLM providers.
  * It follows the OpenAI API format for compatibility.
  */
 export class ArchGwHandler extends RouterProvider implements SingleCompletionHandler {
@@ -30,7 +30,7 @@ export class ArchGwHandler extends RouterProvider implements SingleCompletionHan
 			baseURL: options.archgwBaseUrl || "http://localhost:12000/v1",
 			apiKey: options.archgwApiKey,
 			modelId: options.archgwModelId,
-			defaultModelId: archgwDefaultModelId,
+			defaultModelId: options.archgwModelId || archgwDefaultModelId,
 			defaultModelInfo: archgwDefaultModelInfo,
 		})
 		this.preferenceConfig = options.archgwPreferenceConfig // Store the new parameter
