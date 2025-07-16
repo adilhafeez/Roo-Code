@@ -146,7 +146,6 @@ function validateProviderAgainstOrganizationSettings(
 }
 
 function getModelIdForProvider(apiConfiguration: ProviderSettings, provider: string): string | undefined {
-	console.log("getModelIdForProvider", { apiConfiguration, provider })
 	switch (provider) {
 		case "openrouter":
 			return apiConfiguration.openRouterModelId

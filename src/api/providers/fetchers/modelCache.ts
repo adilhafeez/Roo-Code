@@ -47,11 +47,9 @@ async function readModels(router: RouterName): Promise<ModelRecord | undefined> 
  * @returns The models from the cache or the fetched models.
  */
 export const getModels = async (options: GetModelsOptions): Promise<ModelRecord> => {
-	console.log("[getModels] Fetching models for provider:", options.provider)
 	const { provider } = options
 	let models = memoryCache.get<ModelRecord>(provider)
 	if (models) {
-		console.log(`[getModels] Models for ${provider} found in memory cache`)
 		return models
 	}
 

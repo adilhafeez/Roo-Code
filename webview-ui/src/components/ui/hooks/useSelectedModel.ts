@@ -121,7 +121,7 @@ function getSelectedModel({
 		}
 
 		case "archgw": {
-			const id = apiConfiguration.archgwModelId ?? "gemini"
+			const id = apiConfiguration.archgwModelId ?? "gpt-4o"
 			const info = routerModels.archgw[id]
 			return info ? { id, info } : { id: archgwDefaultModelId, info: routerModels.archgw[archgwDefaultModelId] }
 		}
