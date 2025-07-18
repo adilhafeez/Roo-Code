@@ -21,6 +21,7 @@ import { RouterProvider } from "./router-provider"
  */
 export class ArchGwHandler extends RouterProvider implements SingleCompletionHandler {
 	preferenceConfig?: string // Declare the property
+	archgwUsePreferences: boolean
 
 	constructor(options: ApiHandlerOptions) {
 		console.log("ArchGwHandler constructor called with options:", options)
@@ -34,6 +35,7 @@ export class ArchGwHandler extends RouterProvider implements SingleCompletionHan
 			defaultModelInfo: archgwDefaultModelInfo,
 		})
 		this.preferenceConfig = options.archgwPreferenceConfig // Store the new parameter
+		this.archgwUsePreferences = options.archgwUsePreferences || false // Store the preference flag
 	}
 
 	override async *createMessage(
@@ -61,7 +63,7 @@ export class ArchGwHandler extends RouterProvider implements SingleCompletionHan
 			},
 		}
 
-		if (this.preferenceConfig) {
+		if (this.archgwUsePreferences && this.preferenceConfig) {
 			if (!requestOptions.metadata) {
 				requestOptions.metadata = {}
 			}

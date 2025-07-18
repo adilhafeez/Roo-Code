@@ -4,6 +4,8 @@ import type { ProviderSettings, OrganizationAllowList } from "@roo-code/types"
 
 import { isRouterName, RouterModels } from "@roo/api"
 
+import * as yaml from "yaml"
+
 export function validateApiConfiguration(
 	apiConfiguration: ProviderSettings,
 	routerModels?: RouterModels,
@@ -304,4 +306,35 @@ export function validateApiConfigurationExcludingModelErrors(
 
 	// skip model validation errors as they'll be shown in the model selector
 	return undefined
+}
+
+export function validateArchGwPreferenceConfig(archgwPreferenceConfig: string) {
+	try {
+		// Only validate if not empty
+		if (archgwPreferenceConfig.trim() !== "") {
+			const parsed = yaml.parse(archgwPreferenceConfig)
+			if (!Array.isArray(parsed)) {
+				return {
+					isValid: false,
+					errorMessage: "YAML must be a list of objects with 'name', 'model' and 'usage'.",
+				}
+			}
+			for (const item of parsed) {
+				if (
+					typeof item !== "object" ||
+					typeof item.name !== "string" ||
+					typeof item.model !== "string" ||
+					typeof item.usage !== "string"
+				) {
+					return {
+						isValid: false,
+						errorMessage: "Each item must have 'name', 'model' and 'usage' as strings.",
+					}
+				}
+			}
+		}
+	} catch (err: any) {
+		return { isValid: false, errorMessage: err.message || String(err) }
+	}
+	return { isValid: true, errorMessage: undefined }
 }
