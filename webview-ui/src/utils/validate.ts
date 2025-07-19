@@ -308,6 +308,11 @@ export function validateApiConfigurationExcludingModelErrors(
 	return undefined
 }
 
+/**
+ * Validates the ArchGw preference configuration YAML
+ * @param archgwPreferenceConfig The YAML string to validate
+ * @returns An object with validation results: { isValid, errorMessage }
+ */
 export function validateArchGwPreferenceConfig(archgwPreferenceConfig: string) {
 	try {
 		// Only validate if not empty
@@ -316,19 +321,33 @@ export function validateArchGwPreferenceConfig(archgwPreferenceConfig: string) {
 			if (!Array.isArray(parsed)) {
 				return {
 					isValid: false,
-					errorMessage: "YAML must be a list of objects with 'name', 'model' and 'usage'.",
+					errorMessage: "YAML must be a list of objects, each with 'model' and 'routing_preferences' array.",
 				}
 			}
 			for (const item of parsed) {
-				if (
-					typeof item !== "object" ||
-					typeof item.name !== "string" ||
-					typeof item.model !== "string" ||
-					typeof item.usage !== "string"
-				) {
+				if (typeof item !== "object" || typeof item.model !== "string") {
 					return {
 						isValid: false,
-						errorMessage: "Each item must have 'name', 'model' and 'usage' as strings.",
+						errorMessage: "Each item must have a 'model' string field.",
+					}
+				}
+				if (!Array.isArray(item.routing_preferences)) {
+					return {
+						isValid: false,
+						errorMessage: "Each item must have a 'routing_preferences' array.",
+					}
+				}
+				for (const pref of item.routing_preferences) {
+					if (
+						typeof pref !== "object" ||
+						typeof pref.name !== "string" ||
+						typeof pref.description !== "string"
+					) {
+						return {
+							isValid: false,
+							errorMessage:
+								"Each routing preference must be an object with 'name' and 'description' (both strings).",
+						}
 					}
 				}
 			}

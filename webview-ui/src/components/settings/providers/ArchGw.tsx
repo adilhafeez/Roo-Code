@@ -197,12 +197,17 @@ export const ArchGw = ({ apiConfiguration, setApiConfigurationField, organizatio
 						{t("settings:providers.archgwPreferenceConfigUse")}
 						<div>
 							<pre style={{ whiteSpace: "pre-wrap" }}>
-								{`- name: code generation
-  model: openai/gpt-4.1
-  usage: generating new code snippets
-- name: code understanding
-  model: openai/gpt-4o-mini
-  usage: understand and explain existing code snippets`}
+								{`
+  - model: openai/gpt-4o
+    routing_preferences:
+      - name: code understanding
+        description: understand and explain code
+
+  - model: openai/gpt-4.1
+    routing_preferences:
+      - name: code generation
+        description: generating new code
+                `}
 							</pre>
 						</div>
 						{t("settings:providers.archgwPreferenceConfigDesc")}
