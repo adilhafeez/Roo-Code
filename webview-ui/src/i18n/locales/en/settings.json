@@ -134,6 +134,7 @@
 		}
 	},
 	"providers": {
+		"archgwApiKey": "Arch Gateway API Key",
 		"providerDocumentation": "{{provider}} documentation",
 		"configProfile": "Configuration Profile",
 		"description": "Save different API configurations to quickly switch between providers and settings.",
@@ -143,6 +144,7 @@
 		"nameExists": "A profile with this name already exists",
 		"deleteProfile": "Delete Profile",
 		"invalidArnFormat": "Invalid ARN format. Please check the examples above.",
+		"invalidRoutingConfig": "Invalid routing config format.",
 		"enterNewName": "Enter new name",
 		"addProfile": "Add Profile",
 		"renameProfile": "Rename Profile",
@@ -155,12 +157,21 @@
 		"vscodeLmDescription": " The VS Code Language Model API allows you to run models provided by other VS Code extensions (including but not limited to GitHub Copilot). The easiest way to get started is to install the Copilot and Copilot Chat extensions from the VS Code Marketplace.",
 		"awsCustomArnUse": "Enter a valid Amazon Bedrock ARN for the model you want to use. Format examples:",
 		"awsCustomArnDesc": "Make sure the region in the ARN matches your selected AWS Region above.",
+		"archgwPreferenceConfigUse": "Enter a valid YAML configuration for Arch Gateway preference-based routing. The configuration should include the route name, model ID and the usage preferences. For example:",
+		"archgwPreferenceConfigDesc": "Make sure the model ID exists in your arch gateway configuration.",
 		"openRouterApiKey": "OpenRouter API Key",
 		"getOpenRouterApiKey": "Get OpenRouter API Key",
 		"apiKeyStorageNotice": "API keys are stored securely in VSCode's Secret Storage",
 		"glamaApiKey": "Glama API Key",
 		"getGlamaApiKey": "Get Glama API Key",
 		"useCustomBaseUrl": "Use custom base URL",
+		"usePreferenceBasedRouting": "Use preference based routing",
+		"routingConfig": "Routing Config",
+		"archgwPreferenceConfig": {
+			"schemaError": "Invalid routing config schema. Error: {{error}}",
+			"yamlError": "Invalid yaml format. Error: {{error}}"
+		},
+		"usePreferenceModel2": "Add another model to preference based routing",
 		"useReasoning": "Enable reasoning",
 		"useHostHeader": "Use custom Host header",
 		"useLegacyFormat": "Use legacy OpenAI API format",

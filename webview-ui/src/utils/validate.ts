@@ -4,6 +4,8 @@ import type { ProviderSettings, OrganizationAllowList } from "@roo-code/types"
 
 import { isRouterName, RouterModels } from "@roo/api"
 
+import * as yaml from "yaml"
+
 export function validateApiConfiguration(
 	apiConfiguration: ProviderSettings,
 	routerModels?: RouterModels,
@@ -236,6 +238,9 @@ export function validateModelId(apiConfiguration: ProviderSettings, routerModels
 		case "litellm":
 			modelId = apiConfiguration.litellmModelId
 			break
+		case "archgw":
+			modelId = apiConfiguration.archgwModelId
+			break
 	}
 
 	if (!modelId) {
@@ -301,4 +306,54 @@ export function validateApiConfigurationExcludingModelErrors(
 
 	// skip model validation errors as they'll be shown in the model selector
 	return undefined
+}
+
+/**
+ * Validates the ArchGw preference configuration YAML
+ * @param archgwPreferenceConfig The YAML string to validate
+ * @returns An object with validation results: { isValid, errorMessage }
+ */
+export function validateArchGwPreferenceConfig(archgwPreferenceConfig: string) {
+	try {
+		// Only validate if not empty
+		if (archgwPreferenceConfig.trim() !== "") {
+			const parsed = yaml.parse(archgwPreferenceConfig)
+			if (!Array.isArray(parsed)) {
+				return {
+					isValid: false,
+					errorMessage: "YAML must be a list of objects, each with 'model' and 'routing_preferences' array.",
+				}
+			}
+			for (const item of parsed) {
+				if (typeof item !== "object" || typeof item.model !== "string") {
+					return {
+						isValid: false,
+						errorMessage: "Each item must have a 'model' string field.",
+					}
+				}
+				if (!Array.isArray(item.routing_preferences)) {
+					return {
+						isValid: false,
+						errorMessage: "Each item must have a 'routing_preferences' array.",
+					}
+				}
+				for (const pref of item.routing_preferences) {
+					if (
+						typeof pref !== "object" ||
+						typeof pref.name !== "string" ||
+						typeof pref.description !== "string"
+					) {
+						return {
+							isValid: false,
+							errorMessage:
+								"Each routing preference must be an object with 'name' and 'description' (both strings).",
+						}
+					}
+				}
+			}
+		}
+	} catch (err: any) {
+		return { isValid: false, errorMessage: err.message || String(err) }
+	}
+	return { isValid: true, errorMessage: undefined }
 }
