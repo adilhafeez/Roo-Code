@@ -17,6 +17,7 @@ import {
 	GeminiHandler,
 	OpenAiNativeHandler,
 	DeepSeekHandler,
+	MoonshotHandler,
 	MistralHandler,
 	VsCodeLmHandler,
 	UnboundHandler,
@@ -90,6 +91,8 @@ export function buildApiHandler(configuration: ProviderSettings): ApiHandler {
 			return new OpenAiNativeHandler(options)
 		case "deepseek":
 			return new DeepSeekHandler(options)
+		case "moonshot":
+			return new MoonshotHandler(options)
 		case "archgw":
 			return new ArchGwHandler(options)
 		case "vscode-lm":
@@ -113,6 +116,7 @@ export function buildApiHandler(configuration: ProviderSettings): ApiHandler {
 		case "litellm":
 			return new LiteLLMHandler(options)
 		default:
+			apiProvider satisfies "gemini-cli" | undefined
 			return new AnthropicHandler(options)
 	}
 }
