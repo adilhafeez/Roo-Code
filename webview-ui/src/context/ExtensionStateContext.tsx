@@ -67,6 +67,7 @@ export interface ExtensionStateContextType extends ExtensionState {
 	setShowRooIgnoredFiles: (value: boolean) => void
 	setShowAnnouncement: (value: boolean) => void
 	setAllowedCommands: (value: string[]) => void
+	setDeniedCommands: (value: string[]) => void
 	setAllowedMaxRequests: (value: number | undefined) => void
 	setSoundEnabled: (value: boolean) => void
 	setSoundVolume: (value: number) => void
@@ -87,6 +88,8 @@ export interface ExtensionStateContextType extends ExtensionState {
 	setScreenshotQuality: (value: number) => void
 	terminalOutputLineLimit?: number
 	setTerminalOutputLineLimit: (value: number) => void
+	terminalOutputCharacterLimit?: number
+	setTerminalOutputCharacterLimit: (value: number) => void
 	mcpEnabled: boolean
 	setMcpEnabled: (value: boolean) => void
 	enableMcpServerCreation: boolean
@@ -129,6 +132,8 @@ export interface ExtensionStateContextType extends ExtensionState {
 	autoCondenseContextPercent: number
 	setAutoCondenseContextPercent: (value: number) => void
 	routerModels?: RouterModels
+	alwaysAllowUpdateTodoList?: boolean
+	setAlwaysAllowUpdateTodoList: (value: boolean) => void
 }
 
 export const ExtensionStateContext = createContext<ExtensionStateContextType | undefined>(undefined)
@@ -160,6 +165,7 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 		taskHistory: [],
 		shouldShowAnnouncement: false,
 		allowedCommands: [],
+		deniedCommands: [],
 		soundEnabled: false,
 		soundVolume: 0.5,
 		ttsEnabled: false,
@@ -172,6 +178,7 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 		browserViewportSize: "900x600",
 		screenshotQuality: 75,
 		terminalOutputLineLimit: 500,
+		terminalOutputCharacterLimit: 50000,
 		terminalShellIntegrationTimeout: 4000,
 		mcpEnabled: true,
 		enableMcpServerCreation: false,
@@ -212,13 +219,16 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 		autoCondenseContextPercent: 100,
 		profileThresholds: {},
 		codebaseIndexConfig: {
-			codebaseIndexEnabled: false,
+			codebaseIndexEnabled: true,
 			codebaseIndexQdrantUrl: "http://localhost:6333",
 			codebaseIndexEmbedderProvider: "openai",
 			codebaseIndexEmbedderBaseUrl: "",
 			codebaseIndexEmbedderModelId: "",
+			codebaseIndexSearchMaxResults: undefined,
+			codebaseIndexSearchMinScore: undefined,
 		},
 		codebaseIndexModels: { ollama: {}, openai: {} },
+		alwaysAllowUpdateTodoList: true,
 	})
 
 	const [didHydrateState, setDidHydrateState] = useState(false)
@@ -388,6 +398,7 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 			setState((prevState) => ({ ...prevState, followupAutoApproveTimeoutMs: value })),
 		setShowAnnouncement: (value) => setState((prevState) => ({ ...prevState, shouldShowAnnouncement: value })),
 		setAllowedCommands: (value) => setState((prevState) => ({ ...prevState, allowedCommands: value })),
+		setDeniedCommands: (value) => setState((prevState) => ({ ...prevState, deniedCommands: value })),
 		setAllowedMaxRequests: (value) => setState((prevState) => ({ ...prevState, allowedMaxRequests: value })),
 		setSoundEnabled: (value) => setState((prevState) => ({ ...prevState, soundEnabled: value })),
 		setSoundVolume: (value) => setState((prevState) => ({ ...prevState, soundVolume: value })),
@@ -402,6 +413,8 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 		setScreenshotQuality: (value) => setState((prevState) => ({ ...prevState, screenshotQuality: value })),
 		setTerminalOutputLineLimit: (value) =>
 			setState((prevState) => ({ ...prevState, terminalOutputLineLimit: value })),
+		setTerminalOutputCharacterLimit: (value) =>
+			setState((prevState) => ({ ...prevState, terminalOutputCharacterLimit: value })),
 		setTerminalShellIntegrationTimeout: (value) =>
 			setState((prevState) => ({ ...prevState, terminalShellIntegrationTimeout: value })),
 		setTerminalShellIntegrationDisabled: (value) =>
@@ -457,6 +470,10 @@ export const ExtensionStateContextProvider: React.FC<{ children: React.ReactNode
 		setCustomCondensingPrompt: (value) =>
 			setState((prevState) => ({ ...prevState, customCondensingPrompt: value })),
 		setProfileThresholds: (value) => setState((prevState) => ({ ...prevState, profileThresholds: value })),
+		alwaysAllowUpdateTodoList: state.alwaysAllowUpdateTodoList,
+		setAlwaysAllowUpdateTodoList: (value) => {
+			setState((prevState) => ({ ...prevState, alwaysAllowUpdateTodoList: value }))
+		},
 	}
 
 	return <ExtensionStateContext.Provider value={contextValue}>{children}</ExtensionStateContext.Provider>

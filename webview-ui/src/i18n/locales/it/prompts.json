@@ -96,10 +96,19 @@
 			"previewButton": "Anteprima miglioramento prompt",
 			"testEnhancement": "Testa miglioramento"
 		},
+		"condense": {
+			"apiConfiguration": "Configurazione API per la condensazione del contesto",
+			"apiConfigDescription": "Seleziona quale configurazione API utilizzare per le operazioni di condensazione del contesto. Lascia deselezionato per utilizzare la configurazione attiva corrente.",
+			"useCurrentConfig": "Usa la configurazione API currently selezionata"
+		},
 		"types": {
 			"ENHANCE": {
 				"label": "Migliora prompt",
 				"description": "Utilizza il miglioramento dei prompt per ottenere suggerimenti o miglioramenti personalizzati per i tuoi input. Questo assicura che Roo comprenda la tua intenzione e fornisca le migliori risposte possibili. Disponibile tramite l'icona ✨ nella chat."
+			},
+			"CONDENSE": {
+				"label": "Condensazione del contesto",
+				"description": "Configura come viene condensato il contesto della conversazione per gestire i limiti dei token. Questo prompt viene utilizzato sia per le operazioni di condensazione del contesto manuali che automatiche."
 			},
 			"EXPLAIN": {
 				"label": "Spiega codice",
@@ -188,5 +197,13 @@
 		},
 		"deleteMode": "Elimina modalità"
 	},
-	"allFiles": "tutti i file"
+	"allFiles": "tutti i file",
+	"deleteMode": {
+		"title": "Elimina modalità",
+		"message": "Sei sicuro di voler eliminare la modalità \"{{modeName}}\"?",
+		"rulesFolder": "Questa modalità ha una cartella di regole in {{folderPath}} che verrà eliminata.",
+		"descriptionNoRules": "Sei sicuro di voler eliminare questa modalità personalizzata?",
+		"confirm": "Elimina",
+		"cancel": "Annulla"
+	}
 }
