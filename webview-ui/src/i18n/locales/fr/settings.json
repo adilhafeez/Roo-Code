@@ -223,6 +223,11 @@
 		"vscodeLmDescription": "L'API du modèle de langage VS Code vous permet d'exécuter des modèles fournis par d'autres extensions VS Code (y compris, mais sans s'y limiter, GitHub Copilot). Le moyen le plus simple de commencer est d'installer les extensions Copilot et Copilot Chat depuis le VS Code Marketplace.",
 		"awsCustomArnUse": "Entrez un ARN Amazon Bedrock valide pour le modèle que vous souhaitez utiliser. Exemples de format :",
 		"awsCustomArnDesc": "Assurez-vous que la région dans l'ARN correspond à la région AWS sélectionnée ci-dessus.",
+		"archgwPreferenceConfigUse": "Entrez une configuration YAML valide pour le routage basé sur les préférences d'Arch Gateway. La configuration doit inclure le nom de la route, l'ID du modèle et les préférences d'utilisation. Par exemple:",
+		"archgwPreferenceConfigDesc": "Assurez-vous que l'ID du modèle existe dans votre configuration d'arch gateway.",
+		"invalidRoutingConfig": "Format de configuration de routage invalide.",
+		"routingConfig": "Configuration de routage",
+		"usePreferenceBasedRouting": "Utiliser le routage basé sur les préférences",
 		"openRouterApiKey": "Clé API OpenRouter",
 		"getOpenRouterApiKey": "Obtenir la clé API OpenRouter",
 		"apiKeyStorageNotice": "Les clés API sont stockées en toute sécurité dans le stockage sécurisé de VSCode",
@@ -689,7 +694,13 @@
 		"modelAvailability": "L'ID de modèle ({{modelId}}) que vous avez fourni n'est pas disponible. Veuillez choisir un modèle différent.",
 		"providerNotAllowed": "Le fournisseur '{{provider}}' n'est pas autorisé par votre organisation",
 		"modelNotAllowed": "Le modèle '{{model}}' n'est pas autorisé pour le fournisseur '{{provider}}' par votre organisation",
-		"profileInvalid": "Ce profil contient un fournisseur ou un modèle qui n'est pas autorisé par votre organisation"
+		"profileInvalid": "Ce profil contient un fournisseur ou un modèle qui n'est pas autorisé par votre organisation",
+		"routingConfig": {
+			"invalidSchema": "Le YAML doit être une liste d'objets, chacun avec une clé 'model' et un tableau 'routing_preferences'.",
+			"missingModelKey": "Chaque objet de configuration de routage doit avoir une clé 'model'.",
+			"missingPreferencesMap": "Chaque objet de configuration de routage doit avoir une clé 'routing_preferences' avec un tableau de préférences.",
+			"invalidPreferences": "Chaque préférence de routage doit être un objet avec 'name' et 'description' (toutes deux des chaînes de caractères)."
+		}
 	},
 	"placeholders": {
 		"apiKey": "Saisissez la clé API...",

@@ -321,20 +321,20 @@ export function validateArchGwPreferenceConfig(archgwPreferenceConfig: string) {
 			if (!Array.isArray(parsed)) {
 				return {
 					isValid: false,
-					errorMessage: "YAML must be a list of objects, each with 'model' and 'routing_preferences' array.",
+					errorMessage: i18next.t("settings:validation.routigConfig.invalidSchema"),
 				}
 			}
 			for (const item of parsed) {
 				if (typeof item !== "object" || typeof item.model !== "string") {
 					return {
 						isValid: false,
-						errorMessage: "Each item must have a 'model' string field.",
+						errorMessage: i18next.t("settings:validation.routigConfig.missingModelKey"),
 					}
 				}
 				if (!Array.isArray(item.routing_preferences)) {
 					return {
 						isValid: false,
-						errorMessage: "Each item must have a 'routing_preferences' array.",
+						errorMessage: i18next.t("settings:validation.routigConfig.missingPreferencesMap"),
 					}
 				}
 				for (const pref of item.routing_preferences) {
@@ -345,8 +345,7 @@ export function validateArchGwPreferenceConfig(archgwPreferenceConfig: string) {
 					) {
 						return {
 							isValid: false,
-							errorMessage:
-								"Each routing preference must be an object with 'name' and 'description' (both strings).",
+							errorMessage: i18next.t("settings:validation.routigConfig.invalidPreference"),
 						}
 					}
 				}

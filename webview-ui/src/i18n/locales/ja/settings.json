@@ -223,6 +223,11 @@
 		"vscodeLmDescription": "VS Code言語モデルAPIを使用すると、他のVS Code拡張機能（GitHub Copilotなど）が提供するモデルを実行できます。最も簡単な方法は、VS Code MarketplaceからCopilotおよびCopilot Chat拡張機能をインストールすることです。",
 		"awsCustomArnUse": "使用したいモデルの有効なAmazon Bedrock ARNを入力してください。形式の例:",
 		"awsCustomArnDesc": "ARN内のリージョンが上で選択したAWSリージョンと一致していることを確認してください。",
+		"archgwPreferenceConfigUse": "Arch Gatewayの優先度ベースのルーティングに対する有効なYAML構成を入力してください。構成には、ルート名、モデルID、および使用の優先度が含まれている必要があります。例えば:",
+		"archgwPreferenceConfigDesc": "モデルIDがアーチゲートウェイの構成に存在することを確認してください。",
+		"invalidRoutingConfig": "無効なルーティング設定フォーマットです。",
+		"routingConfig": "ルーティング設定",
+		"usePreferenceBasedRouting": "優先度ベースのルーティングを使用",
 		"openRouterApiKey": "OpenRouter APIキー",
 		"getOpenRouterApiKey": "OpenRouter APIキーを取得",
 		"apiKeyStorageNotice": "APIキーはVSCodeのシークレットストレージに安全に保存されます",
@@ -689,7 +694,13 @@
 		"modelAvailability": "指定されたモデルID（{{modelId}}）は利用できません。別のモデルを選択してください。",
 		"providerNotAllowed": "プロバイダー「{{provider}}」は組織によって許可されていません",
 		"modelNotAllowed": "モデル「{{model}}」はプロバイダー「{{provider}}」に対して組織によって許可されていません",
-		"profileInvalid": "このプロファイルには、組織によって許可されていないプロバイダーまたはモデルが含まれています"
+		"profileInvalid": "このプロファイルには、組織によって許可されていないプロバイダーまたはモデルが含まれています",
+		"routingConfig": {
+			"invalidSchema": "YAMLは、各オブジェクトに'model'と'routing_preferences'配列を持つリストである必要があります。",
+			"missingModelKey": "各ルーティング構成オブジェクトには'model'キーが必要です。",
+			"missingPreferencesMap": "各ルーティング構成オブジェクトには、優先度の配列を持つ'routing_preferences'キーが必要です。",
+			"invalidPreferences": "各ルーティング優先度は'name'と'description'（両方とも文字列）を持つオブジェクトである必要があります。"
+		}
 	},
 	"placeholders": {
 		"apiKey": "API キーを入力...",

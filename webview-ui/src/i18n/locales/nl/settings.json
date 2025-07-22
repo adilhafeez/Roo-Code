@@ -223,6 +223,11 @@
 		"vscodeLmDescription": "De VS Code Language Model API stelt je in staat modellen te draaien die door andere VS Code-extensies worden geleverd (waaronder GitHub Copilot). De eenvoudigste manier om te beginnen is door de Copilot- en Copilot Chat-extensies te installeren vanuit de VS Code Marketplace.",
 		"awsCustomArnUse": "Voer een geldige Amazon Bedrock ARN in voor het model dat je wilt gebruiken. Voorbeeldformaten:",
 		"awsCustomArnDesc": "Zorg ervoor dat de regio in de ARN overeenkomt met je geselecteerde AWS-regio hierboven.",
+		"archgwPreferenceConfigUse": "Voer een geldige YAML-configuratie in voor Arch Gateway voorkeur-gebaseerde routering. De configuratie moet de routenaam, model-ID en de gebruiksvoorkeuren bevatten. Bijvoorbeeld:",
+		"archgwPreferenceConfigDesc": "Zorg ervoor dat de model-ID bestaat in je arch gateway-configuratie.",
+		"invalidRoutingConfig": "Ongeldig routeringsconfiguratieformaat.",
+		"routingConfig": "Routeringsconfiguratie",
+		"usePreferenceBasedRouting": "Gebruik voorkeur-gebaseerde routering",
 		"openRouterApiKey": "OpenRouter API-sleutel",
 		"getOpenRouterApiKey": "OpenRouter API-sleutel ophalen",
 		"apiKeyStorageNotice": "API-sleutels worden veilig opgeslagen in de geheime opslag van VSCode",
@@ -689,7 +694,13 @@
 		"modelAvailability": "Het opgegeven model-ID ({{modelId}}) is niet beschikbaar. Kies een ander model.",
 		"providerNotAllowed": "Provider '{{provider}}' is niet toegestaan door je organisatie",
 		"modelNotAllowed": "Model '{{model}}' is niet toegestaan voor provider '{{provider}}' door je organisatie",
-		"profileInvalid": "Dit profiel bevat een provider of model dat niet is toegestaan door je organisatie"
+		"profileInvalid": "Dit profiel bevat een provider of model dat niet is toegestaan door je organisatie",
+		"routingConfig": {
+			"invalidSchema": "YAML moet een lijst zijn van objecten, elk met een 'model' en 'routing_preferences' array.",
+			"missingModelKey": "Elk routingconfiguratie-object moet een 'model' sleutel hebben.",
+			"missingPreferencesMap": "Elk routingconfiguratie-object moet een 'routing_preferences' sleutel hebben met een array van voorkeuren.",
+			"invalidPreferences": "Elke routingvoorkeur moet een object zijn met 'name' en 'description' (beide strings)."
+		}
 	},
 	"placeholders": {
 		"apiKey": "Voer API-sleutel in...",
