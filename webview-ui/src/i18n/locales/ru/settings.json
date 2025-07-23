@@ -224,7 +224,7 @@
 		"awsCustomArnUse": "Введите действительный Amazon Bedrock ARN для используемой модели. Примеры формата:",
 		"awsCustomArnDesc": "Убедитесь, что регион в ARN совпадает с выбранным выше регионом AWS.",
 		"archgwPreferenceConfigUse": "Введите действительную YAML-конфигурацию для маршрутизации на основе предпочтений Arch Gateway. Конфигурация должна включать имя маршрута, ID модели и предпочтения использования. Например:",
-		"archgwPreferenceConfigDesc": "Убедитесь, что ID модели существует в вашей конфигурации arch gateway.",
+		"archgwPreferenceConfigDesc": "Убедитесь, что ID модели существует в вашей конфигурации Arch Gateway.",
 		"invalidRoutingConfig": "Неверный формат конфигурации маршрутизации.",
 		"routingConfig": "Конфигурация маршрутизации",
 		"usePreferenceBasedRouting": "Использовать маршрутизацию на основе предпочтений",

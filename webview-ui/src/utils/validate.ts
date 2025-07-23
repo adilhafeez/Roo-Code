@@ -321,20 +321,20 @@ export function validateArchGwPreferenceConfig(archgwPreferenceConfig: string) {
 			if (!Array.isArray(parsed)) {
 				return {
 					isValid: false,
-					errorMessage: i18next.t("settings:validation.routigConfig.invalidSchema"),
+					errorMessage: i18next.t("settings:validation.routingConfig.invalidSchema"),
 				}
 			}
 			for (const item of parsed) {
 				if (typeof item !== "object" || typeof item.model !== "string") {
 					return {
 						isValid: false,
-						errorMessage: i18next.t("settings:validation.routigConfig.missingModelKey"),
+						errorMessage: i18next.t("settings:validation.routingConfig.missingModelKey"),
 					}
 				}
 				if (!Array.isArray(item.routing_preferences)) {
 					return {
 						isValid: false,
-						errorMessage: i18next.t("settings:validation.routigConfig.missingPreferencesMap"),
+						errorMessage: i18next.t("settings:validation.routingConfig.missingPreferencesMap"),
 					}
 				}
 				for (const pref of item.routing_preferences) {
@@ -345,7 +345,7 @@ export function validateArchGwPreferenceConfig(archgwPreferenceConfig: string) {
 					) {
 						return {
 							isValid: false,
-							errorMessage: i18next.t("settings:validation.routigConfig.invalidPreference"),
+							errorMessage: i18next.t("settings:validation.routingConfig.invalidPreference"),
 						}
 					}
 				}

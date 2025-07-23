@@ -188,7 +188,7 @@ describe("ArchGwHandler", () => {
   usage: understand and explain existing code snippets
 `
 			const handlerEmptyPref = new ArchGwHandler({
-				archgwModelId: "arch-modael",
+				archgwModelId: "arch-model",
 				archgwApiKey: "test-key",
 				archgwPreferenceConfig: preferenceConfig,
 			})

@@ -224,7 +224,7 @@
 		"awsCustomArnUse": "Inserisci un ARN Amazon Bedrock valido per il modello che desideri utilizzare. Esempi di formato:",
 		"awsCustomArnDesc": "Assicurati che la regione nell'ARN corrisponda alla regione AWS selezionata sopra.",
 		"archgwPreferenceConfigUse": "Inserisci una configurazione YAML valida per il routing basato sulle preferenze di Arch Gateway. La configurazione deve includere il nome della rotta, l'ID del modello e le preferenze di utilizzo. Ad esempio:",
-		"archgwPreferenceConfigDesc": "Assicurati che l'ID del modello esista nella tua configurazione di arch gateway.",
+		"archgwPreferenceConfigDesc": "Assicurati che l'ID del modello esista nella tua configurazione di Arch Gateway.",
 		"invalidRoutingConfig": "Formato di configurazione del routing non valido.",
 		"routingConfig": "Configurazione del routing",
 		"usePreferenceBasedRouting": "Usa il routing basato sulle preferenze",
