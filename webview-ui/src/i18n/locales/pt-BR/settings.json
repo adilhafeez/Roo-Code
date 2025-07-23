@@ -223,6 +223,11 @@
 		"vscodeLmDescription": "A API do Modelo de Linguagem do VS Code permite executar modelos fornecidos por outras extensões do VS Code (incluindo, mas não se limitando, ao GitHub Copilot). A maneira mais fácil de começar é instalar as extensões Copilot e Copilot Chat no VS Code Marketplace.",
 		"awsCustomArnUse": "Insira um ARN Amazon Bedrock válido para o modelo que deseja usar. Exemplos de formato:",
 		"awsCustomArnDesc": "Certifique-se de que a região no ARN corresponde à região AWS selecionada acima.",
+		"archgwPreferenceConfigUse": "Insira uma configuração YAML válida para o roteamento baseado em preferências do Arch Gateway. A configuração deve incluir o nome da rota, ID do modelo e as preferências de uso. Por exemplo:",
+		"archgwPreferenceConfigDesc": "Certifique-se de que o ID do modelo exista na sua configuração do Arch Gateway.",
+		"invalidRoutingConfig": "Formato de configuração de roteamento inválido.",
+		"routingConfig": "Configuração de Roteamento",
+		"usePreferenceBasedRouting": "Usar roteamento baseado em preferências",
 		"openRouterApiKey": "Chave de API OpenRouter",
 		"getOpenRouterApiKey": "Obter chave de API OpenRouter",
 		"apiKeyStorageNotice": "As chaves de API são armazenadas com segurança no Armazenamento Secreto do VSCode",
@@ -689,7 +694,13 @@
 		"modelAvailability": "O ID do modelo ({{modelId}}) que você forneceu não está disponível. Por favor, escolha outro modelo.",
 		"providerNotAllowed": "O provedor '{{provider}}' não é permitido pela sua organização",
 		"modelNotAllowed": "O modelo '{{model}}' não é permitido para o provedor '{{provider}}' pela sua organização",
-		"profileInvalid": "Este perfil contém um provedor ou modelo que não é permitido pela sua organização"
+		"profileInvalid": "Este perfil contém um provedor ou modelo que não é permitido pela sua organização",
+		"routingConfig": {
+			"invalidSchema": "YAML deve ser uma lista de objetos, cada um com 'model' e 'routing_preferences' array.",
+			"missingModelKey": "Cada objeto de configuração de roteamento deve ter uma chave 'model'.",
+			"missingPreferencesMap": "Cada objeto de configuração de roteamento deve ter uma chave 'routing_preferences' com um array de preferências.",
+			"invalidPreferences": "Cada preferência de roteamento deve ser um objeto com 'name' e 'description' (ambos strings)."
+		}
 	},
 	"placeholders": {
 		"apiKey": "Digite a chave API...",

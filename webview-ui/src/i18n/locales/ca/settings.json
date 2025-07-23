@@ -223,6 +223,11 @@
 		"vscodeLmDescription": "L'API del model de llenguatge de VS Code us permet executar models proporcionats per altres extensions de VS Code (incloent-hi, però no limitat a, GitHub Copilot). La manera més senzilla de començar és instal·lar les extensions Copilot i Copilot Chat des del VS Code Marketplace.",
 		"awsCustomArnUse": "Introduïu un ARN vàlid d'Amazon Bedrock per al model que voleu utilitzar. Exemples de format:",
 		"awsCustomArnDesc": "Assegureu-vos que la regió a l'ARN coincideix amb la regió d'AWS seleccionada anteriorment.",
+		"archgwPreferenceConfigUse": "Introduïu una configuració YAML vàlida per a l'encaminament basat en preferències d'Arch Gateway. La configuració ha d'incloure el nom de la ruta, l'identificador del model i les preferències d'ús. Per exemple:",
+		"archgwPreferenceConfigDesc": "Assegureu-vos que l'identificador del model existeixi a la configuració d'Arch Gateway.",
+		"invalidRoutingConfig": "Format de configuració d'encaminament no vàlid.",
+		"routingConfig": "Configuració d'encaminament",
+		"usePreferenceBasedRouting": "Utilitza l'encaminament basat en preferències",
 		"openRouterApiKey": "Clau API d'OpenRouter",
 		"getOpenRouterApiKey": "Obtenir clau API d'OpenRouter",
 		"apiKeyStorageNotice": "Les claus API s'emmagatzemen de forma segura a l'Emmagatzematge Secret de VSCode",
@@ -689,7 +694,13 @@
 		"modelAvailability": "L'ID de model ({{modelId}}) que heu proporcionat no està disponible. Si us plau, trieu un altre model.",
 		"providerNotAllowed": "El proveïdor '{{provider}}' no està permès per la vostra organització",
 		"modelNotAllowed": "El model '{{model}}' no està permès per al proveïdor '{{provider}}' per la vostra organització",
-		"profileInvalid": "Aquest perfil conté un proveïdor o model que no està permès per la vostra organització"
+		"profileInvalid": "Aquest perfil conté un proveïdor o model que no està permès per la vostra organització",
+		"routingConfig": {
+			"invalidSchema": "El YAML ha de ser una llista d'objectes, cadascun amb una clau 'model' i una matriu 'routing_preferences'.",
+			"missingModelKey": "Cada objecte de configuració d'encaminament ha de tenir una clau 'model'.",
+			"missingPreferencesMap": "Cada objecte de configuració d'encaminament ha de tenir una clau 'routing_preferences' amb una matriu de preferències.",
+			"invalidPreferences": "Cada preferència d'encaminament ha de ser un objecte amb 'name' i 'description' (ambdós de tipus cadena)."
+		}
 	},
 	"placeholders": {
 		"apiKey": "Introduïu la clau API...",

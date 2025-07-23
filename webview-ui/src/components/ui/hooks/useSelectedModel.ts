@@ -32,6 +32,7 @@ import {
 	glamaDefaultModelId,
 	unboundDefaultModelId,
 	litellmDefaultModelId,
+	archgwDefaultModelId,
 	claudeCodeDefaultModelId,
 	claudeCodeModels,
 } from "@roo-code/types"
@@ -120,6 +121,13 @@ function getSelectedModel({
 			const info = routerModels.litellm[id]
 			return { id, info }
 		}
+
+		case "archgw": {
+			const id = apiConfiguration.archgwModelId ?? "gpt-4o"
+			const info = routerModels.archgw[id]
+			return info ? { id, info } : { id: archgwDefaultModelId, info: routerModels.archgw[archgwDefaultModelId] }
+		}
+
 		case "xai": {
 			const id = apiConfiguration.apiModelId ?? xaiDefaultModelId
 			const info = xaiModels[id as keyof typeof xaiModels]

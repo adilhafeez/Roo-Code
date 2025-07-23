@@ -223,6 +223,11 @@
 		"vscodeLmDescription": "VS Code 언어 모델 API를 사용하면 GitHub Copilot을 포함한 기타 VS Code 확장 프로그램이 제공하는 모델을 실행할 수 있습니다. 시작하려면 VS Code 마켓플레이스에서 Copilot 및 Copilot Chat 확장 프로그램을 설치하는 것이 가장 쉽습니다.",
 		"awsCustomArnUse": "사용하려는 모델의 유효한 Amazon Bedrock ARN을 입력하세요. 형식 예시:",
 		"awsCustomArnDesc": "ARN의 리전이 위에서 선택한 AWS 리전과 일치하는지 확인하세요.",
+		"archgwPreferenceConfigUse": "Arch Gateway 기본 라우팅을 위한 유효한 YAML 구성을 입력하세요. 구성에는 경로 이름, 모델 ID 및 사용 기본 설정이 포함되어야 합니다. 예:",
+		"archgwPreferenceConfigDesc": "모델 ID가 아치 게이트웨이 구성에 존재하는지 확인하세요.",
+		"invalidRoutingConfig": "잘못된 라우팅 구성 형식입니다.",
+		"routingConfig": "라우팅 구성",
+		"usePreferenceBasedRouting": "기본 설정 기반 라우팅 사용",
 		"openRouterApiKey": "OpenRouter API 키",
 		"getOpenRouterApiKey": "OpenRouter API 키 받기",
 		"apiKeyStorageNotice": "API 키는 VSCode의 보안 저장소에 안전하게 저장됩니다",
@@ -689,7 +694,13 @@
 		"modelAvailability": "제공한 모델 ID({{modelId}})를 사용할 수 없습니다. 다른 모델을 선택하세요.",
 		"providerNotAllowed": "제공자 '{{provider}}'는 조직에서 허용되지 않습니다",
 		"modelNotAllowed": "모델 '{{model}}'은 제공자 '{{provider}}'에 대해 조직에서 허용되지 않습니다",
-		"profileInvalid": "이 프로필에는 조직에서 허용되지 않는 제공자 또는 모델이 포함되어 있습니다"
+		"profileInvalid": "이 프로필에는 조직에서 허용되지 않는 제공자 또는 모델이 포함되어 있습니다",
+		"routingConfig": {
+			"invalidSchema": "YAML은 각 객체에 'model' 및 'routing_preferences' 배열이 있는 목록이어야 합니다.",
+			"missingModelKey": "각 라우팅 구성 객체에는 'model' 키가 필요합니다.",
+			"missingPreferencesMap": "각 라우팅 구성 객체에는 우선 순위 배열이 있는 'routing_preferences' 키가 필요합니다.",
+			"invalidPreferences": "각 라우팅 우선 순위는 'name' 및 'description'(둘 다 문자열)을 가진 객체여야 합니다."
+		}
 	},
 	"placeholders": {
 		"apiKey": "API 키 입력...",

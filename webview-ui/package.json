@@ -76,6 +76,7 @@
 		"use-sound": "^5.0.0",
 		"vscode-material-icons": "^0.1.1",
 		"vscrui": "^0.2.2",
+		"yaml": "^2.8.0",
 		"zod": "^3.25.61"
 	},
 	"devDependencies": {

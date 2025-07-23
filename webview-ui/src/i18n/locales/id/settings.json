@@ -227,6 +227,11 @@
 		"vscodeLmDescription": " API Model Bahasa VS Code memungkinkan kamu menjalankan model yang disediakan oleh ekstensi VS Code lainnya (termasuk namun tidak terbatas pada GitHub Copilot). Cara termudah untuk memulai adalah menginstal ekstensi Copilot dan Copilot Chat dari VS Code Marketplace.",
 		"awsCustomArnUse": "Masukkan ARN Amazon Bedrock yang valid untuk model yang ingin kamu gunakan. Contoh format:",
 		"awsCustomArnDesc": "Pastikan region di ARN cocok dengan AWS Region yang kamu pilih di atas.",
+		"archgwPreferenceConfigUse": "Masukkan konfigurasi YAML yang valid untuk routing berbasis preferensi di Arch Gateway. Konfigurasi harus mencakup nama rute, ID model, dan preferensi penggunaan. Contohnya:",
+		"archgwPreferenceConfigDesc": "Pastikan ID model ada dalam konfigurasi Arch Gateway Anda.",
+		"invalidRoutingConfig": "Format konfigurasi routing tidak valid.",
+		"routingConfig": "Konfigurasi Routing",
+		"usePreferenceBasedRouting": "Gunakan routing berbasis preferensi",
 		"openRouterApiKey": "OpenRouter API Key",
 		"getOpenRouterApiKey": "Dapatkan OpenRouter API Key",
 		"apiKeyStorageNotice": "API key disimpan dengan aman di Secret Storage VSCode",
@@ -718,7 +723,13 @@
 		"modelAvailability": "Model ID ({{modelId}}) yang kamu berikan tidak tersedia. Silakan pilih model yang berbeda.",
 		"providerNotAllowed": "Provider '{{provider}}' tidak diizinkan oleh organisasi kamu",
 		"modelNotAllowed": "Model '{{model}}' tidak diizinkan untuk provider '{{provider}}' oleh organisasi kamu",
-		"profileInvalid": "Profil ini berisi provider atau model yang tidak diizinkan oleh organisasi kamu"
+		"profileInvalid": "Profil ini berisi provider atau model yang tidak diizinkan oleh organisasi kamu",
+		"routingConfig": {
+			"invalidSchema": "YAML harus berupa daftar objek, masing-masing dengan kunci 'model' dan array 'routing_preferences'.",
+			"missingModelKey": "Setiap objek konfigurasi routing harus memiliki kunci 'model'.",
+			"missingPreferencesMap": "Setiap objek konfigurasi routing harus memiliki kunci 'routing_preferences' dengan array preferensi.",
+			"invalidPreferences": "Setiap preferensi routing harus berupa objek dengan 'name' dan 'description' (keduanya berupa string)."
+		}
 	},
 	"placeholders": {
 		"apiKey": "Masukkan API Key...",

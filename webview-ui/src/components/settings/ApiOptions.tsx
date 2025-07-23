@@ -25,6 +25,7 @@ import {
 	chutesDefaultModelId,
 	bedrockDefaultModelId,
 	vertexDefaultModelId,
+	archgwDefaultModelId,
 } from "@roo-code/types"
 
 import { vscode } from "@src/utils/vscode"
@@ -56,6 +57,7 @@ import {
 	Chutes,
 	ClaudeCode,
 	DeepSeek,
+	ArchGw,
 	Gemini,
 	Glama,
 	Groq,
@@ -200,6 +202,8 @@ const ApiOptions = ({
 				vscode.postMessage({ type: "requestVsCodeLmModels" })
 			} else if (selectedProvider === "litellm") {
 				vscode.postMessage({ type: "requestRouterModels" })
+			} else if (selectedProvider === "archgw") {
+				vscode.postMessage({ type: "requestRouterModels" })
 			}
 		},
 		250,
@@ -212,6 +216,7 @@ const ApiOptions = ({
 			apiConfiguration?.lmStudioBaseUrl,
 			apiConfiguration?.litellmBaseUrl,
 			apiConfiguration?.litellmApiKey,
+			apiConfiguration?.archgwBaseUrl,
 			customHeaders,
 		],
 	)
@@ -299,6 +304,7 @@ const ApiOptions = ({
 				openai: { field: "openAiModelId" },
 				ollama: { field: "ollamaModelId" },
 				lmstudio: { field: "lmStudioModelId" },
+				archgw: { field: "archgwModelId", default: archgwDefaultModelId },
 			}
 
 			const config = PROVIDER_MODEL_CONFIG[value]
@@ -469,6 +475,14 @@ const ApiOptions = ({
 
 			{selectedProvider === "moonshot" && (
 				<Moonshot apiConfiguration={apiConfiguration} setApiConfigurationField={setApiConfigurationField} />
+			)}
+
+			{selectedProvider === "archgw" && (
+				<ArchGw
+					apiConfiguration={apiConfiguration}
+					setApiConfigurationField={setApiConfigurationField}
+					organizationAllowList={organizationAllowList}
+				/>
 			)}
 
 			{selectedProvider === "vscode-lm" && (

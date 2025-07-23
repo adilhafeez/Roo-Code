@@ -223,6 +223,11 @@
 		"vscodeLmDescription": "VS Code Dil Modeli API'si, diğer VS Code uzantıları tarafından sağlanan modelleri çalıştırmanıza olanak tanır (GitHub Copilot dahil ancak bunlarla sınırlı değildir). Başlamanın en kolay yolu, VS Code Marketplace'ten Copilot ve Copilot Chat uzantılarını yüklemektir.",
 		"awsCustomArnUse": "Kullanmak istediğiniz model için geçerli bir Amazon Bedrock ARN'si girin. Format örnekleri:",
 		"awsCustomArnDesc": "ARN içindeki bölgenin yukarıda seçilen AWS Bölgesiyle eşleştiğinden emin olun.",
+		"archgwPreferenceConfigUse": "Arch Gateway tercih tabanlı yönlendirme için geçerli bir YAML yapılandırması girin. Yapılandırma, rota adını, model kimliğini ve kullanım tercihlerini içermelidir. Örneğin:",
+		"archgwPreferenceConfigDesc": "Model kimliğinin arch gateway yapılandırmanızda mevcut olduğundan emin olun.",
+		"invalidRoutingConfig": "Geçersiz yönlendirme yapılandırma formatı.",
+		"routingConfig": "Yönlendirme Yapılandırması",
+		"usePreferenceBasedRouting": "Tercih tabanlı yönlendirmeyi kullan",
 		"openRouterApiKey": "OpenRouter API Anahtarı",
 		"getOpenRouterApiKey": "OpenRouter API Anahtarı Al",
 		"apiKeyStorageNotice": "API anahtarları VSCode'un Gizli Depolamasında güvenli bir şekilde saklanır",
@@ -689,7 +694,13 @@
 		"modelAvailability": "Sağladığınız model kimliği ({{modelId}}) kullanılamıyor. Lütfen başka bir model seçin.",
 		"providerNotAllowed": "Sağlayıcı '{{provider}}' kuruluşunuz tarafından izin verilmiyor",
 		"modelNotAllowed": "Model '{{model}}' sağlayıcı '{{provider}}' için kuruluşunuz tarafından izin verilmiyor",
-		"profileInvalid": "Bu profil, kuruluşunuz tarafından izin verilmeyen bir sağlayıcı veya model içeriyor"
+		"profileInvalid": "Bu profil, kuruluşunuz tarafından izin verilmeyen bir sağlayıcı veya model içeriyor",
+		"routingConfig": {
+			"invalidSchema": "YAML, her biri 'model' ve 'routing_preferences' dizisine sahip nesnelerin bir listesi olmalıdır.",
+			"missingModelKey": "Her yönlendirme yapılandırma nesnesinin bir 'model' anahtarı olmalıdır.",
+			"missingPreferencesMap": "Her yönlendirme yapılandırma nesnesinin bir dizi tercih ile 'routing_preferences' anahtarı olmalıdır.",
+			"invalidPreferences": "Her yönlendirme tercihi, 'name' ve 'description' (her ikisi de dize) ile bir nesne olmalıdır."
+		}
 	},
 	"placeholders": {
 		"apiKey": "API anahtarını girin...",

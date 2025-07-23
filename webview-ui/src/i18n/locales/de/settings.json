@@ -223,6 +223,11 @@
 		"vscodeLmDescription": "Die VS Code Language Model API ermöglicht das Ausführen von Modellen, die von anderen VS Code-Erweiterungen bereitgestellt werden (einschließlich, aber nicht beschränkt auf GitHub Copilot). Der einfachste Weg, um zu starten, besteht darin, die Erweiterungen Copilot und Copilot Chat aus dem VS Code Marketplace zu installieren.",
 		"awsCustomArnUse": "Geben Sie eine gültige Amazon Bedrock ARN für das Modell ein, das Sie verwenden möchten. Formatbeispiele:",
 		"awsCustomArnDesc": "Stellen Sie sicher, dass die Region in der ARN mit Ihrer oben ausgewählten AWS-Region übereinstimmt.",
+		"archgwPreferenceConfigUse": "Geben Sie eine gültige YAML-Konfiguration für das Arch-Gateway mit präferenzbasiertem Routing ein. Die Konfiguration sollte den Routen-Namen, die Modell-ID und die Nutzungsvorlieben enthalten. Zum Beispiel:",
+		"archgwPreferenceConfigDesc": "Stellen Sie sicher, dass die Modell-ID in Ihrer Arch-Gateway-Konfiguration vorhanden ist.",
+		"invalidRoutingConfig": "Ungültiges Format der Routing-Konfiguration.",
+		"routingConfig": "Routing-Konfiguration",
+		"usePreferenceBasedRouting": "Präferenzbasiertes Routing verwenden",
 		"openRouterApiKey": "OpenRouter API-Schlüssel",
 		"getOpenRouterApiKey": "OpenRouter API-Schlüssel erhalten",
 		"apiKeyStorageNotice": "API-Schlüssel werden sicher im VSCode Secret Storage gespeichert",
@@ -689,7 +694,13 @@
 		"modelAvailability": "Die von dir angegebene Modell-ID ({{modelId}}) ist nicht verfügbar. Bitte wähle ein anderes Modell.",
 		"providerNotAllowed": "Anbieter '{{provider}}' ist von deiner Organisation nicht erlaubt",
 		"modelNotAllowed": "Modell '{{model}}' ist für Anbieter '{{provider}}' von deiner Organisation nicht erlaubt",
-		"profileInvalid": "Dieses Profil enthält einen Anbieter oder ein Modell, das von deiner Organisation nicht erlaubt ist"
+		"profileInvalid": "Dieses Profil enthält einen Anbieter oder ein Modell, das von deiner Organisation nicht erlaubt ist",
+		"routingConfig": {
+			"invalidSchema": "YAML muss eine Liste von Objekten sein, die jeweils einen 'model'-Schlüssel und ein 'routing_preferences'-Array enthalten.",
+			"missingModelKey": "Jedes Routing-Konfigurationsobjekt muss einen 'model'-Schlüssel enthalten.",
+			"missingPreferencesMap": "Jedes Routing-Konfigurationsobjekt muss einen 'routing_preferences'-Schlüssel mit einem Array von Präferenzen enthalten.",
+			"invalidPreferences": "Jede Routing-Präferenz muss ein Objekt mit 'name' und 'description' sein (beides Zeichenfolgen)."
+		}
 	},
 	"placeholders": {
 		"apiKey": "API-Schlüssel eingeben...",

@@ -223,6 +223,11 @@
 		"vscodeLmDescription": "VS Code 语言模型 API 允许您运行由其他 VS Code 扩展（包括但不限于 GitHub Copilot）提供的模型。最简单的方法是从 VS Code 市场安装 Copilot 和 Copilot Chat 扩展。",
 		"awsCustomArnUse": "请输入有效的 Amazon Bedrock ARN（Amazon资源名称），格式示例：",
 		"awsCustomArnDesc": "请确保ARN中的区域与上方选择的AWS区域一致。",
+		"archgwPreferenceConfigUse": "输入有效的 YAML 配置，用于 Arch Gateway 基于偏好的路由。配置应包括路由名称、模型 ID 和使用偏好。例如：",
+		"archgwPreferenceConfigDesc": "确保模型 ID 存在于您的 arch gateway 配置中。",
+		"invalidRoutingConfig": "无效的路由配置格式。",
+		"routingConfig": "路由配置",
+		"usePreferenceBasedRouting": "使用基于偏好的路由",
 		"openRouterApiKey": "OpenRouter API 密钥",
 		"getOpenRouterApiKey": "获取 OpenRouter API 密钥",
 		"apiKeyStorageNotice": "API 密钥安全存储在 VSCode 的密钥存储中",
@@ -689,7 +694,13 @@
 		"modelAvailability": "模型ID {{modelId}} 不可用，请重新选择",
 		"providerNotAllowed": "提供商 '{{provider}}' 不允许用于您的组织",
 		"modelNotAllowed": "模型 '{{model}}' 不允许用于提供商 '{{provider}}'，您的组织不允许",
-		"profileInvalid": "此配置文件包含您的组织不允许的提供商或模型"
+		"profileInvalid": "此配置文件包含您的组织不允许的提供商或模型",
+		"routingConfig": {
+			"invalidSchema": "YAML 必须是一个对象列表，每个对象都有 'model' 和 'routing_preferences' 数组。",
+			"missingModelKey": "每个路由配置对象必须有一个 'model' 键。",
+			"missingPreferencesMap": "每个路由配置对象必须有一个 'routing_preferences' 键，值为偏好数组。",
+			"invalidPreferences": "每个路由偏好必须是一个包含 'name' 和 'description'（均为字符串）的对象。"
+		}
 	},
 	"placeholders": {
 		"apiKey": "请输入 API 密钥...",

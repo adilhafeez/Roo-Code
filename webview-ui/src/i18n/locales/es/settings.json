@@ -223,6 +223,11 @@
 		"vscodeLmDescription": "La API del Modelo de Lenguaje de VS Code le permite ejecutar modelos proporcionados por otras extensiones de VS Code (incluido, entre otros, GitHub Copilot). La forma más sencilla de empezar es instalar las extensiones Copilot y Copilot Chat desde el VS Code Marketplace.",
 		"awsCustomArnUse": "Ingrese un ARN de Amazon Bedrock válido para el modelo que desea utilizar. Ejemplos de formato:",
 		"awsCustomArnDesc": "Asegúrese de que la región en el ARN coincida con la región de AWS seleccionada anteriormente.",
+		"archgwPreferenceConfigUse": "Ingrese una configuración YAML válida para el enrutamiento basado en preferencias de Arch Gateway. La configuración debe incluir el nombre de la ruta, el ID del modelo y las preferencias de uso. Por ejemplo:",
+		"archgwPreferenceConfigDesc": "Asegúrese de que el ID del modelo exista en su configuración de Arch Gateway.",
+		"invalidRoutingConfig": "Formato de configuración de enrutamiento no válido.",
+		"routingConfig": "Configuración de enrutamiento",
+		"usePreferenceBasedRouting": "Usar enrutamiento basado en preferencias",
 		"openRouterApiKey": "Clave API de OpenRouter",
 		"getOpenRouterApiKey": "Obtener clave API de OpenRouter",
 		"apiKeyStorageNotice": "Las claves API se almacenan de forma segura en el Almacenamiento Secreto de VSCode",
@@ -689,7 +694,13 @@
 		"modelAvailability": "El ID de modelo ({{modelId}}) que proporcionó no está disponible. Por favor, elija un modelo diferente.",
 		"providerNotAllowed": "El proveedor '{{provider}}' no está permitido por su organización",
 		"modelNotAllowed": "El modelo '{{model}}' no está permitido para el proveedor '{{provider}}' por su organización",
-		"profileInvalid": "Este perfil contiene un proveedor o modelo que no está permitido por su organización"
+		"profileInvalid": "Este perfil contiene un proveedor o modelo que no está permitido por su organización",
+		"routingConfig": {
+			"invalidSchema": "El YAML debe ser una lista de objetos, cada uno con una clave 'model' y un arreglo 'routing_preferences'.",
+			"missingModelKey": "Cada objeto de configuración de enrutamiento debe tener una clave 'model'.",
+			"missingPreferencesMap": "Cada objeto de configuración de enrutamiento debe tener una clave 'routing_preferences' con un arreglo de preferencias.",
+			"invalidPreferences": "Cada preferencia de enrutamiento debe ser un objeto con 'name' y 'description' (ambos como cadenas de texto)."
+		}
 	},
 	"placeholders": {
 		"apiKey": "Ingrese clave API...",

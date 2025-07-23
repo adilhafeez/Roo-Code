@@ -28,6 +28,7 @@ import {
 	GroqHandler,
 	ChutesHandler,
 	LiteLLMHandler,
+	ArchGwHandler,
 	ClaudeCodeHandler,
 } from "./providers"
 
@@ -92,6 +93,8 @@ export function buildApiHandler(configuration: ProviderSettings): ApiHandler {
 			return new DeepSeekHandler(options)
 		case "moonshot":
 			return new MoonshotHandler(options)
+		case "archgw":
+			return new ArchGwHandler(options)
 		case "vscode-lm":
 			return new VsCodeLmHandler(options)
 		case "mistral":

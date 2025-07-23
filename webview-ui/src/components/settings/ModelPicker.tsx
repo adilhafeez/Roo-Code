@@ -27,7 +27,13 @@ import { ApiErrorMessage } from "./ApiErrorMessage"
 
 type ModelIdKey = keyof Pick<
 	ProviderSettings,
-	"glamaModelId" | "openRouterModelId" | "unboundModelId" | "requestyModelId" | "openAiModelId" | "litellmModelId"
+	| "glamaModelId"
+	| "openRouterModelId"
+	| "unboundModelId"
+	| "requestyModelId"
+	| "openAiModelId"
+	| "litellmModelId"
+	| "archgwModelId"
 >
 
 interface ModelPickerProps {
@@ -39,6 +45,7 @@ interface ModelPickerProps {
 	apiConfiguration: ProviderSettings
 	setApiConfigurationField: <K extends keyof ProviderSettings>(field: K, value: ProviderSettings[K]) => void
 	organizationAllowList: OrganizationAllowList
+	showModelInfoDescription?: boolean
 	errorMessage?: string
 }
 
@@ -51,6 +58,7 @@ export const ModelPicker = ({
 	apiConfiguration,
 	setApiConfigurationField,
 	organizationAllowList,
+	showModelInfoDescription,
 	errorMessage,
 }: ModelPickerProps) => {
 	const { t } = useAppTranslation()
@@ -216,16 +224,20 @@ export const ModelPicker = ({
 					setIsDescriptionExpanded={setIsDescriptionExpanded}
 				/>
 			)}
-			<div className="text-sm text-vscode-descriptionForeground">
-				<Trans
-					i18nKey="settings:modelPicker.automaticFetch"
-					components={{
-						serviceLink: <VSCodeLink href={serviceUrl} className="text-sm" />,
-						defaultModelLink: <VSCodeLink onClick={() => onSelect(defaultModelId)} className="text-sm" />,
-					}}
-					values={{ serviceName, defaultModelId }}
-				/>
-			</div>
+			{showModelInfoDescription !== false && (
+				<div className="text-sm text-vscode-descriptionForeground">
+					<Trans
+						i18nKey="settings:modelPicker.automaticFetch"
+						components={{
+							serviceLink: <VSCodeLink href={serviceUrl} className="text-sm" />,
+							defaultModelLink: (
+								<VSCodeLink onClick={() => onSelect(defaultModelId)} className="text-sm" />
+							),
+						}}
+						values={{ serviceName, defaultModelId }}
+					/>
+				</div>
+			)}
 		</>
 	)
 }

@@ -223,6 +223,11 @@
 		"vscodeLmDescription": "VS कोड भाषा मॉडल API आपको अन्य VS कोड एक्सटेंशन (जैसे GitHub Copilot) द्वारा प्रदान किए गए मॉडल चलाने की अनुमति देता है। शुरू करने का सबसे आसान तरीका VS कोड मार्केटप्लेस से Copilot और Copilot चैट एक्सटेंशन इंस्टॉल करना है।",
 		"awsCustomArnUse": "आप जिस मॉडल का उपयोग करना चाहते हैं, उसके लिए एक वैध AWS बेडरॉक ARN दर्ज करें। प्रारूप उदाहरण:",
 		"awsCustomArnDesc": "सुनिश्चित करें कि ARN में क्षेत्र ऊपर चयनित AWS क्षेत्र से मेल खाता है।",
+		"archgwPreferenceConfigUse": "Arch Gateway प्राथमिकता-आधारित रूटिंग के लिए एक मान्य YAML कॉन्फ़िगरेशन दर्ज करें। कॉन्फ़िगरेशन में रूट नाम, मॉडल आईडी और उपयोग प्राथमिकताएँ शामिल होनी चाहिए। उदाहरण के लिए:",
+		"archgwPreferenceConfigDesc": "सुनिश्चित करें कि मॉडल आईडी आपकी आर्क गेटवे कॉन्फ़िगरेशन में मौजूद है।",
+		"invalidRoutingConfig": "अमान्य रूटिंग कॉन्फ़िग प्रारूप।",
+		"routingConfig": "रूटिंग कॉन्फ़िग",
+		"usePreferenceBasedRouting": "प्राथमिकता आधारित रूटिंग का उपयोग करें",
 		"openRouterApiKey": "OpenRouter API कुंजी",
 		"getOpenRouterApiKey": "OpenRouter API कुंजी प्राप्त करें",
 		"apiKeyStorageNotice": "API कुंजियाँ VSCode के सुरक्षित स्टोरेज में सुरक्षित रूप से संग्रहीत हैं",
@@ -689,7 +694,13 @@
 		"modelAvailability": "आपके द्वारा प्रदान की गई मॉडल ID ({{modelId}}) उपलब्ध नहीं है। कृपया कोई अन्य मॉडल चुनें।",
 		"providerNotAllowed": "प्रदाता '{{provider}}' आपके संगठन द्वारा अनुमत नहीं है",
 		"modelNotAllowed": "मॉडल '{{model}}' प्रदाता '{{provider}}' के लिए आपके संगठन द्वारा अनुमत नहीं है",
-		"profileInvalid": "इस प्रोफ़ाइल में एक प्रदाता या मॉडल शामिल है जो आपके संगठन द्वारा अनुमत नहीं है"
+		"profileInvalid": "इस प्रोफ़ाइल में एक प्रदाता या मॉडल शामिल है जो आपके संगठन द्वारा अनुमत नहीं है",
+		"routingConfig": {
+			"invalidSchema": "YAML को वस्तुओं की एक सूची होना चाहिए, प्रत्येक में 'model' और 'routing_preferences' सरणी होनी चाहिए।",
+			"missingModelKey": "प्रत्येक रूटिंग कॉन्फ़िग ऑब्जेक्ट में 'model' कुंजी होनी चाहिए।",
+			"missingPreferencesMap": "प्रत्येक रूटिंग कॉन्फ़िग ऑब्जेक्ट में 'routing_preferences' कुंजी होनी चाहिए जिसमें प्राथमिकताओं की एक सरणी हो।",
+			"invalidPreferences": "प्रत्येक रूटिंग प्राथमिकता को 'name' और 'description' (दोनों स्ट्रिंग) के साथ एक ऑब्जेक्ट होना चाहिए।"
+		}
 	},
 	"placeholders": {
 		"apiKey": "API कुंजी दर्ज करें...",

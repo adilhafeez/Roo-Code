@@ -166,6 +166,7 @@ export const SECRET_STATE_KEYS = [
 	"xaiApiKey",
 	"groqApiKey",
 	"chutesApiKey",
+	"archgwApiKey",
 	"litellmApiKey",
 	"codeIndexOpenAiKey",
 	"codeIndexQdrantApiKey",
